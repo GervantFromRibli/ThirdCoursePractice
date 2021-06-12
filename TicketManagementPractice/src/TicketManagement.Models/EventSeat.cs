@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TicketManagement.Models
+﻿namespace TicketManagement.Models
 {
     /// <summary>
     /// Класс, представляющий модель записи

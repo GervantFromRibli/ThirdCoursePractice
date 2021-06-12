@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TicketManagement.Models
+﻿namespace TicketManagement.Models
 {
     /// <summary>
     /// Класс, представляющий модель записи
