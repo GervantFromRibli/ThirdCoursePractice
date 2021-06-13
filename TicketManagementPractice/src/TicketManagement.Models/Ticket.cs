@@ -6,6 +6,13 @@
     /// </summary>
     public class Ticket
     {
+        public Ticket(int id, int eventSeatId, int userId)
+        {
+            Id = id;
+            EventSeatId = eventSeatId;
+            UserId = userId;
+        }
+
         /// <summary>
         /// Свойство, представляющее столбец "Id"
         /// </summary>

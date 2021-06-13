@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using TicketManagement.Models;
+
+[assembly: InternalsVisibleToAttribute("TicketManagement.BLL")]
 
 namespace TicketManagement.DAL
 {

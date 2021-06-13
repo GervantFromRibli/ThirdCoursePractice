@@ -6,6 +6,15 @@
     /// </summary>
     public class Venue
     {
+        public Venue() { }
+
+        public Venue(int id, string descr, string address, string phone)
+        {
+            Id = id;
+            Description = descr;
+            Address = address;
+            Phone = phone;
+        }
         /// <summary>
         /// Свойство, представляющее столбец "Id"
         /// </summary>

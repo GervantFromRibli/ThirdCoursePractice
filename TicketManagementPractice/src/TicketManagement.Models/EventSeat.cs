@@ -6,6 +6,15 @@
     /// </summary>
     public class EventSeat
     {
+        public EventSeat(int id, int eventAreaId, int row, int number, string state)
+        {
+            Id = id;
+            EventAreaId = eventAreaId;
+            Row = row;
+            Number = number;
+            State = state;
+        }
+
         /// <summary>
         /// Свойство, представляющее столбец "Id"
         /// </summary>

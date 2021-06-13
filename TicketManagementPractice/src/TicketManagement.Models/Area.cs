@@ -6,6 +6,17 @@
     /// </summary>
     public class Area
     {
+        public Area(int id, int layoutId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY)
+        {
+            Id = id;
+            LayoutId = layoutId;
+            Description = description;
+            StartCoordX = startCoordX;
+            StartCoordY = startCoordY;
+            EndCoordX = endCoordX;
+            EndCoordY = endCoordY;
+        }
+
         /// <summary>
         /// Свойство, представляющее столбец "Id"
         /// </summary>

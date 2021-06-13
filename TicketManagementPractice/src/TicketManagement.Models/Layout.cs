@@ -6,6 +6,15 @@
     /// </summary>
     public class Layout
     {
+        private string descriptions;
+
+        public Layout(int id, int venueId, string description)
+        {
+            Id = id;
+            VenueId = venueId;
+            Description = description;
+        }
+
         /// <summary>
         /// Свойство, представляющее столбец "Id"
         /// </summary>

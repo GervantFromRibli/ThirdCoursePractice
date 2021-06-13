@@ -8,6 +8,16 @@ namespace TicketManagement.Models
     /// </summary>
     public class Event
     {
+        public Event(int id, string name, string description, int layoutId, DateTime startDate, DateTime endDate)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            LayoutId = layoutId;
+            StartDate = startDate;
+            EndDate = endDate;
+        }
+
         /// <summary>
         /// Свойство, представляющее столбец "Id"
         /// </summary>

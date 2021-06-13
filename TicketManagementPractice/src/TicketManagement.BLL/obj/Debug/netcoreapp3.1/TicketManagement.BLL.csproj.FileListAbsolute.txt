@@ -1,0 +1,14 @@
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\bin\Debug\netcoreapp3.1\TicketManagement.BLL.deps.json
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\bin\Debug\netcoreapp3.1\TicketManagement.BLL.dll
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\bin\Debug\netcoreapp3.1\TicketManagement.BLL.pdb
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\bin\Debug\netcoreapp3.1\TicketManagement.DAL.dll
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\bin\Debug\netcoreapp3.1\TicketManagement.Models.dll
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\bin\Debug\netcoreapp3.1\TicketManagement.DAL.pdb
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\bin\Debug\netcoreapp3.1\TicketManagement.Models.pdb
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\obj\Debug\netcoreapp3.1\TicketManagement.BLL.csproj.AssemblyReference.cache
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\obj\Debug\netcoreapp3.1\TicketManagement.BLL.AssemblyInfoInputs.cache
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\obj\Debug\netcoreapp3.1\TicketManagement.BLL.AssemblyInfo.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\obj\Debug\netcoreapp3.1\TicketManagement.BLL.csproj.CoreCompileInputs.cache
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\obj\Debug\netcoreapp3.1\TicketManagement.BLL.csproj.CopyComplete
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\obj\Debug\netcoreapp3.1\TicketManagement.BLL.dll
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.BLL\obj\Debug\netcoreapp3.1\TicketManagement.BLL.pdb

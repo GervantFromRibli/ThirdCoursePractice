@@ -6,6 +6,14 @@
     /// </summary>
     public class Seat
     {
+        public Seat(int id, int areaId, int row, int number)
+        {
+            Id = id;
+            AreaId = areaId;
+            Row = row;
+            Number = number;
+        }
+
         /// <summary>
         /// Свойство, представляющее столбец "Id"
         /// </summary>

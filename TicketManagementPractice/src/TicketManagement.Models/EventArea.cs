@@ -6,6 +6,18 @@
     /// </summary>
     public class EventArea
     {
+        public EventArea(int id, int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price)
+        {
+            Id = id;
+            EventId = eventId;
+            Description = description;
+            StartCoordX = startCoordX;
+            StartCoordY = startCoordY;
+            EndCoordX = endCoordX;
+            EndCoordY = endCoordY;
+            Price = price;
+        }
+
         /// <summary>
         /// Свойство, представляющее столбец "Id"
         /// </summary>
