@@ -1,0 +1,82 @@
+﻿@model TicketManagement.Web.Models.RegisterView 
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>Регистрация</h4>
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+    </div>
+    <div class="modal-body">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            <label asp-for="UserRole"></label><br />
+            <select asp-for="UserRole" id="userRole">
+                <option>Базовый пользователь</option>
+                <option>Менеджер событий</option>
+                <option>Менеджер площадок</option>
+            </select>
+        </div>
+        <div>
+            <label asp-for="Email"></label><br />
+            <input asp-for="Email" id="email"/>
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div>
+            <label asp-for="Surname"></label><br />
+            <input asp-for="Surname" id="surname"/>
+            <span asp-validation-for="Surname"></span>
+        </div>
+        <div>
+            <label asp-for="FirstName"></label><br />
+            <input asp-for="FirstName" id="firstName"/>
+            <span asp-validation-for="FirstName"></span>
+        </div>
+        <div>
+            <label asp-for="Language"></label><br />
+            <select asp-for="Language" id="language">
+                <option>Беларуская</option>
+                <option>Русский</option>
+                <option>English</option>
+            </select>
+        </div>
+        <div>
+            <label asp-for="Password"></label><br />
+            <input asp-for="Password" id="password"/>
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div>
+            <label asp-for="PasswordConfirm"></label><br />
+            <input asp-for="PasswordConfirm" id="passwordConfirm"/>
+            <span asp-validation-for="PasswordConfirm"></span>
+        </div>
+        <hr />
+        <div>
+            <input type="button" value="Регистрация" class="regAcceptButton" />
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".regAcceptButton").click(function (e) {
+                e.preventDefault();
+                var elem = {
+                    Email: $("#email").val().toString(), UserRole: $("#userRole option:selected").val().toString(), Surname: $("#surname").val().toString(), FirstName: $("#firstName").val().toString(),
+                    Language: $("#language option:selected").val().toString(), Password: $("#password").val().toString(), PasswordConfirm: $("#passwordConfirm").val().toString()
+                };
+                $.ajax({
+                    type: "POST",
+                    data: JSON.stringify(elem),
+                    url: '@Url.Action("Register", "Account")',
+                    contentType: "application/json"
+                }).done(function (res) {
+                    if (res.success) {
+                        window.location.href = res.url;
+                    }
+                    else {
+                        $('#dialogContent').html(res);
+                        $('#modDialog').modal('show');
+                    }
+                });
+            });
+        })
+</script>

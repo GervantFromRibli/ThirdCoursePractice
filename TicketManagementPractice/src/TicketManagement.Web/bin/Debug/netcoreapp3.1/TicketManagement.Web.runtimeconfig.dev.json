@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Gervant_From_Riblya\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Gervant_From_Riblya\\.nuget\\packages"
+    ]
+  }
+}
