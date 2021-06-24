@@ -6,7 +6,7 @@
     /// </summary>
     public class Ticket
     {
-        public Ticket(int id, int eventSeatId, int userId)
+        public Ticket(int id, int eventSeatId, string userId)
         {
             Id = id;
             EventSeatId = eventSeatId;
@@ -28,6 +28,6 @@
         /// Свойство, представляющее столбец "Id пользователя"
         /// и являющееся внешним ключом
         /// </summary>
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

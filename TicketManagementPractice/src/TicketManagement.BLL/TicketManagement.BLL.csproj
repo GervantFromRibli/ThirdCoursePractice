@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TicketManagement.DAL\TicketManagement.DAL.csproj" />
+    <ProjectReference Include="..\TicketManagement.Models\TicketManagement.Models.csproj" />
+  </ItemGroup>
+
 </Project>

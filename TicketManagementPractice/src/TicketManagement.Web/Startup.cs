@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TicketManagement.Web.Models;
+using TicketManagement.BLL;
 
 namespace TicketManagement.Web
 {
@@ -31,6 +32,8 @@ namespace TicketManagement.Web
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("Connection")));
             services.AddControllersWithViews();
         }
 

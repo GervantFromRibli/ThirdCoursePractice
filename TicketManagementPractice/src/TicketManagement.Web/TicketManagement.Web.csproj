@@ -13,4 +13,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TicketManagement.BLL\TicketManagement.BLL.csproj" />
+    <ProjectReference Include="..\TicketManagement.DAL\TicketManagement.DAL.csproj" />
+    <ProjectReference Include="..\TicketManagement.Models\TicketManagement.Models.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -5,6 +5,10 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
+        <li class="nav-item nav-link">
+            <label>Здравствуйте, </label>
+            <a asp-controller="Client" asp-action="Index">@User.Identity.Name</a>
+        </li>
         <li class="nav-item">
             <form class="form-inline" asp-controller="Account" asp-action="Logout">
                 <button type="submit" class="nav-link btn btn-link" style="color:black;">Выход</button>

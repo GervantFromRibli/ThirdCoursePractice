@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -32,50 +34,6 @@ namespace TicketManagement.DAL
         /// <inheritdoc cref="IRepository{T}.Create(T)"/>
         public async Task Create(Venue item)
         {
-            string sql = "EXEC AddVenue @Descr, @Addr, @Phone, @StartTime, @EndTime, @Picture, @NewId OUTPUT";
-
-            List<SqlParameter> prms = new List<SqlParameter>
-            {
-                new SqlParameter
-                {
-                    ParameterName = "Name",
-                    Value = item.Name,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "Description",
-                    Value = item.Description,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "LayoutId",
-                    Value = item.LayoutId,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "StartTime",
-                    Value = item.StartTime,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "EndTime",
-                    Value = item.EndTime,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "Picture",
-                    Value = item.Picture,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "NewId",
-                    SqlDbType = System.Data.SqlDbType.Int,
-                    Direction = System.Data.ParameterDirection.Output,
-                },
-            };
-
-            await DbContext.Database.ExecuteSqlRawAsync(sql, prms);
-            return (int)prms[6].Value;
             await DbContext.Set<Venue>().AddAsync(item);
             await DbContext.SaveChangesAsync();
         }

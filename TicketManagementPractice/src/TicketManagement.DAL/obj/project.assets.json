@@ -1541,6 +1541,16 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "TicketManagement.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/TicketManagement.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TicketManagement.Models.dll": {}
+        }
       }
     }
   },
@@ -5902,13 +5912,19 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "TicketManagement.Models/1.0.0": {
+      "type": "project",
+      "path": "../TicketManagement.Models/TicketManagement.Models.csproj",
+      "msbuildProject": "../TicketManagement.Models/TicketManagement.Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Microsoft.EntityFrameworkCore >= 5.0.7",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.7",
-      "System.Data.SqlClient >= 4.8.2"
+      "System.Data.SqlClient >= 4.8.2",
+      "TicketManagement.Models >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -5937,7 +5953,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\programms\\ThirdCoursePractice\\ThirdCoursePractice\\TicketManagementPractice\\src\\TicketManagement.Models\\TicketManagement.Models.csproj": {
+              "projectPath": "D:\\programms\\ThirdCoursePractice\\ThirdCoursePractice\\TicketManagementPractice\\src\\TicketManagement.Models\\TicketManagement.Models.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

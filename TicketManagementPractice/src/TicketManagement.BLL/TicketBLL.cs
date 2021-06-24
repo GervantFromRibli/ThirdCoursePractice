@@ -2,14 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using TicketManagement.DAL;
 using TicketManagement.Models;
 
+[assembly: InternalsVisibleTo("TicketManagement.Web")]
 namespace TicketManagement.BLL
 {
-    internal class TicketBLL
+    internal class TicketBLL : ITicketBLL
     {
         protected IRepository<Ticket> Repository { get; set; }
 
@@ -34,14 +36,14 @@ namespace TicketManagement.BLL
             return Repository.GetAll() as List<Ticket>;
         }
 
-        public async Task CreateTicket(int eventSeatId, int userId)
+        public async Task CreateTicket(int eventSeatId, string userId)
         {
             var tickets = GetTickets();
             int id = tickets.Select(elem => elem.Id).Max() + 1;
             await Repository.Create(new Ticket(id, eventSeatId, userId));
         }
 
-        public async Task UpdateTicket(int id, int eventSeatId, int userId)
+        public async Task UpdateTicket(int id, int eventSeatId, string userId)
         {
             var tickets = GetTickets().Where(elem => elem.EventSeatId == eventSeatId);
             if (!tickets.Any())
@@ -52,6 +54,11 @@ namespace TicketManagement.BLL
             {
                 throw new Exception("There is a ticket with the same attributes");
             }
+        }
+
+        public List<Ticket> GetUserTickets(string userId)
+        {
+            return Repository.GetAll().Where(elem => elem.UserId == userId) as List<Ticket>;
         }
     }
 }
