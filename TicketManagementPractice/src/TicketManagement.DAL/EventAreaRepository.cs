@@ -15,7 +15,7 @@ namespace TicketManagement.DAL
     /// </summary>
     internal class EventAreaRepository : IRepository<EventArea>
     {
-        public EventAreaRepository(DbContext context)
+        public EventAreaRepository(ApplicationContext context)
         {
             if (context == null)
             {

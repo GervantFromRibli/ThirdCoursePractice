@@ -9,11 +9,11 @@ using TicketManagement.Models;
 
 namespace TicketManagement.BLL
 {
-    internal class AreaBLL
+    internal class AreaBLL : IAreaBLL
     {
         protected IRepository<Area> Repository { get; set; }
 
-        public AreaBLL(DbContext context)
+        public AreaBLL(ApplicationContext context)
         {
             Repository = new AreaRepository(context);
         }

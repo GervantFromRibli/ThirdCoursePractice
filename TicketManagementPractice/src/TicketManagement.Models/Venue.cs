@@ -1,4 +1,6 @@
-﻿namespace TicketManagement.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TicketManagement.Models
 {
     /// <summary>
     /// Класс, представляющий модель записи

@@ -17,7 +17,7 @@ namespace TicketManagement.DAL
     /// </summary>
     internal class VenueRepository : IRepository<Venue>
     {
-        public VenueRepository(DbContext context)
+        public VenueRepository(ApplicationContext context)
         {
             if (context == null)
             {
@@ -29,13 +29,20 @@ namespace TicketManagement.DAL
             }
         }
 
-        protected DbContext DbContext { get; set; }
+        protected ApplicationContext DbContext { get; set; }
 
         /// <inheritdoc cref="IRepository{T}.Create(T)"/>
         public async Task Create(Venue item)
         {
             await DbContext.Set<Venue>().AddAsync(item);
-            await DbContext.SaveChangesAsync();
+            try
+            {
+                await DbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         /// <inheritdoc cref="IRepository{T}.Delete(T)"/>
@@ -48,7 +55,7 @@ namespace TicketManagement.DAL
         /// <inheritdoc cref="IRepository{T}.GetAll()"/>
         public IQueryable<Venue> GetAll()
         {
-            return DbContext.Set<Venue>().AsNoTracking();
+            return DbContext.Venues.AsNoTracking();
         }
 
         /// <inheritdoc cref="IRepository{T}.GetById(int)"/>

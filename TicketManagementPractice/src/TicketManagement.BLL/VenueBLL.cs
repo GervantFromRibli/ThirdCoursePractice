@@ -8,11 +8,11 @@ using TicketManagement.Models;
 
 namespace TicketManagement.BLL
 {
-    internal class VenueBLL
+    internal class VenueBLL : IVenueBLL
     {
         protected IRepository<Venue> Repository { get; set; }
 
-        public VenueBLL(DbContext context)
+        public VenueBLL(ApplicationContext context)
         {
             Repository = new VenueRepository(context);
         }
@@ -36,7 +36,11 @@ namespace TicketManagement.BLL
         public async Task CreateVenue(string descr, string address, string phone)
         {
             List<Venue> venues = GetVenues();
-            if (!venues.Select(elem => elem.Description).Contains(descr))
+            if (venues.Count() == 0)
+            {
+                await Repository.Create(new Venue(1, descr, address, phone));
+            }
+            else if (!venues.Select(elem => elem.Description).Contains(descr))
             {
                 int id = venues.Select(elem => elem.Id).Max() + 1;
                 await Repository.Create(new Venue(id, descr, address, phone));

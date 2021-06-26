@@ -98,3 +98,6 @@ D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\sr
 D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\bin\Debug\netcoreapp3.1\TicketManagement.Models.pdb
 D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Client\Index.cshtml.g.cs
 D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Client\ChangePassword.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Venue\Index.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Venue\_AddVenue.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Venue\_UpdateVenue.cshtml.g.cs

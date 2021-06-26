@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TicketManagement.Web.Models;
 using TicketManagement.BLL;
+using TicketManagement.DAL;
 
 namespace TicketManagement.Web
 {
@@ -27,13 +28,14 @@ namespace TicketManagement.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("Connection")), ServiceLifetime.Scoped);
             services.AddDbContext<IdentityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Connection")));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();
-            services.AddDbContext<ApplicationContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Connection")));
+            
             services.AddControllersWithViews();
         }
 

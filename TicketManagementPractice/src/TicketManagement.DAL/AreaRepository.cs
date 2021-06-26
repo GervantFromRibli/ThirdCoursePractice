@@ -5,13 +5,13 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using TicketManagement.Models;
 
-[assembly: InternalsVisibleToAttribute("TicketManagement.BLL")]
+[assembly: InternalsVisibleTo("TicketManagement.BLL")]
 
 namespace TicketManagement.DAL
 {
     internal class AreaRepository : IRepository<Area>
     {
-        public AreaRepository(DbContext context)
+        public AreaRepository(ApplicationContext context)
         {
             if (context == null)
             {

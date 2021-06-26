@@ -9,7 +9,7 @@ using TicketManagement.Models;
 
 namespace TicketManagement.BLL
 {
-    internal class SeatBLL
+    internal class SeatBLL : ISeatBLL
     {
         protected IRepository<Seat> Repository { get; set; }
 

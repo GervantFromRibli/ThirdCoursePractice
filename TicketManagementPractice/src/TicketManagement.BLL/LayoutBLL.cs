@@ -9,7 +9,7 @@ using TicketManagement.Models;
 
 namespace TicketManagement.BLL
 {
-    internal class LayoutBLL
+    internal class LayoutBLL : ILayoutBLL
     {
         protected IRepository<Layout> Repository { get; set; }
 
