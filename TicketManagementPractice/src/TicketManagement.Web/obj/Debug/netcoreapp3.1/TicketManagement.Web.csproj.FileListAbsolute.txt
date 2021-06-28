@@ -110,3 +110,15 @@ D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\sr
 D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Seat\Index.cshtml.g.cs
 D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Seat\_AddSeat.cshtml.g.cs
 D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Seat\_UpdateSeat.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\UserManage\Create.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\UserManage\Edit.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\UserManage\Index.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Event\Index.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Event\_AddEvent.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Event\_UpdateEvent.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\EventArea\Index.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\EventArea\_AddEventArea.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\EventArea\_UpdateEventArea.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\EventSeat\Index.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\EventSeat\_AddEventSeat.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\EventSeat\_UpdateEventSeat.cshtml.g.cs

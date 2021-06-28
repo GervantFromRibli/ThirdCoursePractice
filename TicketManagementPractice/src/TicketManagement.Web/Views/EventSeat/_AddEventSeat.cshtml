@@ -1,0 +1,48 @@
+﻿@model EventSeatViewModel
+@{ 
+    List<string> areaDescrs = new List<string>();
+    areaDescrs.AddRange(Model.FilterEventAreaDescriptions);
+    areaDescrs.Remove("Все");
+}
+<h3 style="margin-top:15px;">
+    Добавление записи
+</h3>
+<hr />
+@using (Html.BeginForm("AddEventSeat", "EventSeat", FormMethod.Post))
+{
+    <div>
+        @Html.LabelFor(m => m.EventAreaDescription)
+        <div class="col-md-10">
+            <select name="EventAreaDescription">
+                @foreach (var addr in areaDescrs)
+                {
+                    <option>@addr</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Row)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Row)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Number)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Number)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.State)
+        <div class="col-md-10">
+            <select name="State">
+                <option>Куплено</option>
+                <option>Занято</option>
+                <option>Свободно</option>
+            </select>
+        </div>
+    </div>
+    <br />
+    <input type="submit" class="btn btn-default" style="left:15px; position:relative" value="Добавить" />
+}

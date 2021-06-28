@@ -31,7 +31,7 @@ namespace TicketManagement.BLL
 
         public List<EventArea> GetEventAreas()
         {
-            return Repository.GetAll() as List<EventArea>;
+            return Repository.GetAll().ToList();
         }
 
         public async Task CreateEventArea(int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price)

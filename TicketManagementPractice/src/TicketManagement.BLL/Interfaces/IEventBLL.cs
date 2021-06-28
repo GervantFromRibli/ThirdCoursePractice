@@ -14,8 +14,8 @@ namespace TicketManagement.BLL
 
         public List<Event> GetEvents();
 
-        public Task CreateEvent(string name, string description, int layoutId, DateTime startDate, DateTime endDate);
+        public Task CreateEvent(string name, string description, int layoutId, DateTime startDate, DateTime endDate, string imagePath);
 
-        public Task UpdateEvent(int id, string name, string description, int layoutId, DateTime startDate, DateTime endDate);
+        public Task UpdateEvent(int id, string name, string description, int layoutId, DateTime startDate, DateTime endDate, string imagePath);
     }
 }

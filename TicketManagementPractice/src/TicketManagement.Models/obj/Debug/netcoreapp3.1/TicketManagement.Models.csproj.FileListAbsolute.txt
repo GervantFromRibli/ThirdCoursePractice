@@ -6,3 +6,4 @@ D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\sr
 D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Models\obj\Debug\netcoreapp3.1\TicketManagement.Models.csproj.CoreCompileInputs.cache
 D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Models\obj\Debug\netcoreapp3.1\TicketManagement.Models.dll
 D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Models\obj\Debug\netcoreapp3.1\TicketManagement.Models.pdb
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Models\obj\Debug\netcoreapp3.1\TicketManagement.Models.csproj.AssemblyReference.cache

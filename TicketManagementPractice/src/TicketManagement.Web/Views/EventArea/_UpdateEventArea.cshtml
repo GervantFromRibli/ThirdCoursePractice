@@ -1,0 +1,75 @@
+﻿@model EventAreaViewModel
+@{ 
+    List<string> eventNames = new List<string>();
+    eventNames.AddRange(Model.FilterEventNames);
+    eventNames.Remove("Все");
+}
+<h3 style="margin-top:15px;">
+    Изменение записи
+</h3>
+@using (Html.BeginForm("UpdateEventArea", "EventArea", FormMethod.Post))
+{
+    <div>
+        @Html.LabelFor(m => m.Id)
+        <div class="col-md-10">
+            <select name="Id" id="id">
+                @foreach (var id in Model.Ids)
+                {
+                    <option>@id</option>
+                }
+            </select>
+            &nbsp;
+            <input name="action" type="submit" style="border:hidden; width:200px" value="Удалить зону события" />
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Description)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Description)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.EventName)
+        <div class="col-md-10">
+            <select name="EventName">
+                @foreach (var addr in eventNames)
+                {
+                    <option>@addr</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.StartCoordX)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.StartCoordX)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.StartCoordY)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.StartCoordY)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.EndCoordX)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.EndCoordX)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.EndCoordY)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.EndCoordY)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Price)
+        <div class="col-md-10">
+            <input type="number" asp-for="Price" min="0" />
+        </div>
+    </div>
+    <br />
+    <input type="submit" class="btn btn-default" style="left:15px; position:relative" value="Изменить" />
+}
+

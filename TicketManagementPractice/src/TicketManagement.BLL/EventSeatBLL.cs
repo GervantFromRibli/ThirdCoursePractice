@@ -31,7 +31,7 @@ namespace TicketManagement.BLL
 
         public List<EventSeat> GetEventSeats()
         {
-            return Repository.GetAll() as List<EventSeat>;
+            return Repository.GetAll().ToList();
         }
 
         public async Task CreateEventSeat(int eventAreaId, int row, int number, string state)
@@ -45,7 +45,7 @@ namespace TicketManagement.BLL
                 var seats = GetEventSeats().Where(elem => elem.EventAreaId == eventAreaId && elem.Row == row && elem.Number == number);
                 if (!seats.Any())
                 {
-                    int id = seats.Select(elem => elem.Id).Max() + 1;
+                    int id = Repository.GetAll().Select(elem => elem.Id).Max() + 1;
                     await Repository.Create(new EventSeat(id, eventAreaId, row, number, state));
                 }
                 else

@@ -123,7 +123,6 @@ namespace TicketManagement.Web.Controllers
         private List<LayoutCorrectViewModel> GetModels()
         {
             List<Layout> layouts = _layoutBLL.GetLayouts() ?? new List<Layout>();
-            List<int> Ids = layouts.Select(item => item.Id).ToList();
             List<Venue> venues = _venueBLL.GetVenues();
 
             List<LayoutCorrectViewModel> layoutCorrectViewModels = new List<LayoutCorrectViewModel>();

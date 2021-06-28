@@ -1,0 +1,69 @@
+﻿@model EventViewModel
+@{ 
+    List<string> layoutDescr = new List<string>();
+    layoutDescr.AddRange(Model.FilterLayoutDescriptions);
+    layoutDescr.Remove("Все");
+}
+<h3 style="margin-top:15px;">
+    Изменение записи
+</h3>
+@using (Html.BeginForm("UpdateEvent", "Event", FormMethod.Post))
+{
+    <div>
+        @Html.LabelFor(m => m.Id)
+        <div class="col-md-10">
+            <select name="Id" id="id">
+                @foreach (var id in Model.Ids)
+                {
+                    <option>@id</option>
+                }
+            </select>
+            &nbsp;
+            <input name="action" type="submit" style="border:hidden; width:200px" value="Удалить событие" />
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Name)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Description)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Description)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.LayoutDescription)
+        <div class="col-md-10">
+            <select name="LayoutDescription">
+                @foreach (var addr in layoutDescr)
+                {
+                    <option>@addr</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.StartDate)
+        <div class="col-md-10">
+            <input type="date" asp-for="StartDate" min="2021-01-01" />
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.EndDate)
+        <div class="col-md-10">
+            <input type="date" asp-for="EndDate" min="2021-01-01" />
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.ImagePath)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ImagePath)
+        </div>
+    </div>
+    <br />
+    <input type="submit" class="btn btn-default" style="left:15px; position:relative" value="Изменить" />
+}
+

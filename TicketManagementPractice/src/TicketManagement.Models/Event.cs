@@ -8,7 +8,7 @@ namespace TicketManagement.Models
     /// </summary>
     public class Event
     {
-        public Event(int id, string name, string description, int layoutId, DateTime startDate, DateTime endDate)
+        public Event(int id, string name, string description, int layoutId, DateTime startDate, DateTime endDate, string imagePath)
         {
             Id = id;
             Name = name;
@@ -16,6 +16,7 @@ namespace TicketManagement.Models
             LayoutId = layoutId;
             StartDate = startDate;
             EndDate = endDate;
+            ImagePath = imagePath;
         }
 
         /// <summary>
@@ -48,5 +49,7 @@ namespace TicketManagement.Models
         /// Свойство, представляющее столбец "Конец события"
         /// </summary>
         public DateTime EndDate { get; set; }
+
+        public string ImagePath { get; set; }
     }
 }

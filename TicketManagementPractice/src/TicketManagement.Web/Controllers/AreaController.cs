@@ -142,7 +142,6 @@ namespace TicketManagement.Web.Controllers
         private List<AreaCorrectViewModel> GetModels()
         {
             List<Layout> layouts = _layoutBLL.GetLayouts();
-            List<int> Ids = layouts.Select(item => item.Id).ToList();
             List<Area> areas = _areaBLL.GetAreas() ?? new List<Area>();
 
             List<AreaCorrectViewModel> areaCorrectViewModels = new List<AreaCorrectViewModel>();

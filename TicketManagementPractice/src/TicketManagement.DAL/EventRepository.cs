@@ -61,7 +61,7 @@ namespace TicketManagement.DAL
             };
 
             DbContext.Database.ExecuteSqlRawAsync(sql, prms);
-            return (int)prms[3].Value;
+            return 0;
         }
 
         public int CheckSeatsInEvent(Event item)
@@ -84,7 +84,7 @@ namespace TicketManagement.DAL
             };
 
             DbContext.Database.ExecuteSqlRawAsync(sql, prms);
-            return (int)prms[1].Value;
+            return 1;
         }
 
         /// <inheritdoc cref="IRepository{T}.Create(T)"/>

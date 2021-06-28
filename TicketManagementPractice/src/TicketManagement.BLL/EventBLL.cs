@@ -31,22 +31,22 @@ namespace TicketManagement.BLL
 
         public List<Event> GetEvents()
         {
-            return Repository.GetAll() as List<Event>;
+            return Repository.GetAll().ToList();
         }
 
-        public async Task CreateEvent(string name, string description, int layoutId, DateTime startDate, DateTime endDate)
+        public async Task CreateEvent(string name, string description, int layoutId, DateTime startDate, DateTime endDate, string imagePath)
         {
             if (Repository.GetAll().Count() == 0)
             {
-                await Repository.Create(new Event(1, name, description, layoutId, startDate, endDate));
+                await Repository.Create(new Event(1, name, description, layoutId, startDate, endDate, imagePath));
             }
             else
             {
-                Event @event = new Event(0, name, description, layoutId, startDate, endDate);
+                Event @event = new Event(0, name, description, layoutId, startDate, endDate, imagePath);
                 if (!CheckEventIfPast(@event) && !CheckExistEvent(@event) && CheckSeatsInEvent(@event))
                 {
                     int id = GetEvents().Select(elem => elem.Id).Max() + 1;
-                    await Repository.Create(new Event(id, name, description, layoutId, startDate, endDate));
+                    await Repository.Create(new Event(id, name, description, layoutId, startDate, endDate, imagePath));
                 }
                 else
                 {
@@ -66,9 +66,9 @@ namespace TicketManagement.BLL
             }
         }
 
-        public async Task UpdateEvent(int id, string name, string description, int layoutId, DateTime startDate, DateTime endDate)
+        public async Task UpdateEvent(int id, string name, string description, int layoutId, DateTime startDate, DateTime endDate, string imagePath)
         {
-            Event @event = new Event(id, name, description, layoutId, startDate, endDate);
+            Event @event = new Event(id, name, description, layoutId, startDate, endDate, imagePath);
             if (!CheckEventIfPast(@event) && !CheckExistEvent(@event) && CheckSeatsInEvent(@event))
             {
                 await Repository.Update(@event);
