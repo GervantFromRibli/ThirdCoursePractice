@@ -12,10 +12,6 @@ namespace TicketManagement.Web.Models
 
         public List<int> Ids { get; set; }
 
-        public string FilterAddress { get; set; }
-
-        public string FilterDescription { get; set; }
-
         [Display(Name = "Id")]
         public int Id { get; set; }
 

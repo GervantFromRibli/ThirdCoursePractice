@@ -35,14 +35,7 @@ namespace TicketManagement.DAL
         public async Task Create(Venue item)
         {
             await DbContext.Set<Venue>().AddAsync(item);
-            try
-            {
-                await DbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            await DbContext.SaveChangesAsync();
         }
 
         /// <inheritdoc cref="IRepository{T}.Delete(T)"/>
@@ -55,7 +48,7 @@ namespace TicketManagement.DAL
         /// <inheritdoc cref="IRepository{T}.GetAll()"/>
         public IQueryable<Venue> GetAll()
         {
-            return DbContext.Venues.AsNoTracking();
+            return DbContext.Set<Venue>().AsNoTracking();
         }
 
         /// <inheritdoc cref="IRepository{T}.GetById(int)"/>

@@ -1,0 +1,38 @@
+﻿@model SeatViewModel
+@{ 
+    List<string> areaDescrs = new List<string>();
+    areaDescrs.AddRange(Model.FilterAreaDescriptions);
+    areaDescrs.Remove("Все");
+}
+<h3 style="margin-top:15px;">
+    Добавление записи
+</h3>
+<hr />
+@using (Html.BeginForm("AddSeat", "Seat", FormMethod.Post))
+{
+    <div>
+        @Html.LabelFor(m => m.AreaDescription)
+        <div class="col-md-10">
+            <select name="AreaDescription">
+                @foreach (var addr in areaDescrs)
+                {
+                    <option>@addr</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Row)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Row)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Number)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Number)
+        </div>
+    </div>
+    <br />
+    <input type="submit" class="btn btn-default" style="left:15px; position:relative" value="Добавить" />
+}

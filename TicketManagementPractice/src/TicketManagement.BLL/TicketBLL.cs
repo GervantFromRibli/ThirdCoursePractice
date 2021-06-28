@@ -39,8 +39,15 @@ namespace TicketManagement.BLL
         public async Task CreateTicket(int eventSeatId, string userId)
         {
             var tickets = GetTickets();
-            int id = tickets.Select(elem => elem.Id).Max() + 1;
-            await Repository.Create(new Ticket(id, eventSeatId, userId));
+            if (tickets.Count() == 0)
+            {
+                await Repository.Create(new Ticket(1, eventSeatId, userId));
+            }
+            else
+            {
+                int id = tickets.Select(elem => elem.Id).Max() + 1;
+                await Repository.Create(new Ticket(id, eventSeatId, userId));
+            }
         }
 
         public async Task UpdateTicket(int id, int eventSeatId, string userId)

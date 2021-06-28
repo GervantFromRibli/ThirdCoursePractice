@@ -29,7 +29,7 @@ namespace TicketManagement.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Connection")), ServiceLifetime.Scoped);
+                options.UseSqlServer(Configuration.GetConnectionString("Connection")), ServiceLifetime.Singleton);
             services.AddDbContext<IdentityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Connection")));
 

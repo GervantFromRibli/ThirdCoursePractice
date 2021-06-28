@@ -36,25 +36,32 @@ namespace TicketManagement.BLL
 
         public async Task CreateEvent(string name, string description, int layoutId, DateTime startDate, DateTime endDate)
         {
-            Event @event = new Event(0, name, description, layoutId, startDate, endDate);
-            if (!CheckEventIfPast(@event) && !CheckExistEvent(@event) && CheckSeatsInEvent(@event))
+            if (Repository.GetAll().Count() == 0)
             {
-                int id = GetEvents().Select(elem => elem.Id).Max() + 1;
-                await Repository.Create(new Event(id, name, description, layoutId, startDate, endDate));
+                await Repository.Create(new Event(1, name, description, layoutId, startDate, endDate));
             }
             else
             {
-                if (CheckEventIfPast(@event))
+                Event @event = new Event(0, name, description, layoutId, startDate, endDate);
+                if (!CheckEventIfPast(@event) && !CheckExistEvent(@event) && CheckSeatsInEvent(@event))
                 {
-                    throw new Exception("This event was in the past");
-                }
-                else if (CheckExistEvent(@event))
-                {
-                    throw new Exception("There is an event with the same date");
+                    int id = GetEvents().Select(elem => elem.Id).Max() + 1;
+                    await Repository.Create(new Event(id, name, description, layoutId, startDate, endDate));
                 }
                 else
                 {
-                    throw new Exception("There is no seats for this event");
+                    if (CheckEventIfPast(@event))
+                    {
+                        throw new Exception("This event was in the past");
+                    }
+                    else if (CheckExistEvent(@event))
+                    {
+                        throw new Exception("There is an event with the same date");
+                    }
+                    else
+                    {
+                        throw new Exception("There is no seats for this event");
+                    }
                 }
             }
         }

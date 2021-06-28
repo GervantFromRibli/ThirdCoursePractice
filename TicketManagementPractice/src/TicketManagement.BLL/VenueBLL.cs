@@ -30,7 +30,7 @@ namespace TicketManagement.BLL
 
         public List<Venue> GetVenues()
         {
-            return Repository.GetAll() as List<Venue>;
+            return Repository.GetAll().ToList();
         }
 
         public async Task CreateVenue(string descr, string address, string phone)

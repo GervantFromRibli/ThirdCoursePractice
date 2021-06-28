@@ -20,12 +20,12 @@ namespace TicketManagement.Web.Controllers
         {
             _venueBLL = new VenueBLL(applicationContext);
         }
-        public IActionResult Index(int page = 1, string description = null, string address = null, string type = null)
+        public IActionResult Index(int page = 1, string description = null, string address = null, string type = null, string message = null)
         {
             int pageSize = 20;
             List<Venue> venues = _venueBLL.GetVenues() ?? new List<Venue>();
             List<int> Ids = venues.Select(item => item.Id).ToList();
-
+            ViewBag.Message = message;
             if (description != null)
             {
                 venues = venues.Where(item => item.Description.Contains(description)).ToList();
@@ -61,13 +61,11 @@ namespace TicketManagement.Web.Controllers
         public IActionResult AddVenue(VenueViewModel model)
         {
             model.Venues = _venueBLL.GetVenues() ?? new List<Venue>();
-            ViewData["Message"] = "";
-            model.Ids = model.Venues.Select(item => item.Id).ToList();
             var message = VerificationOfVenue(model);
             if (message != "Ok") 
             {
-                ViewData["Message"] += message;
-                return View("Index", model);
+                ViewBag.Message = message;
+                return RedirectToAction("Index", new { message });
             }
             else
             {
@@ -78,26 +76,23 @@ namespace TicketManagement.Web.Controllers
 
         public IActionResult DeleteVenue(int id)
         {
-            ViewData["Message"] = "";
             _venueBLL.DeleteVenue(id);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult UpdateEmployee(VenueViewModel model, string action = null)
+        public IActionResult UpdateVenue(VenueViewModel model, string action = null)
         {
-            if (action != null)
+            if (action == "Удалить площадку")
             {
                 return DeleteVenue(model.Id);
             }
             model.Venues = _venueBLL.GetVenues() ?? new List<Venue>();
-            ViewData["Message"] = "";
-            model.Ids = model.Venues.Select(item => item.Id).ToList();
             var message = VerificationOfVenue(model);
             if (message != "Ok")
             {
-                ViewData["Message"] += message;
-                return View("Index", model);
+                ViewBag.Message = message;
+                return RedirectToAction("Index", new { message });
             }
             else
             {

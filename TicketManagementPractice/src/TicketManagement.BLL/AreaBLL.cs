@@ -31,13 +31,17 @@ namespace TicketManagement.BLL
 
         public List<Area> GetAreas()
         {
-            return Repository.GetAll() as List<Area>;
+            return Repository.GetAll().ToList();
         }
 
         public async Task CreateArea(int layoutId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY)
         {
             List<Area> areas = GetAreas();
-            if (!areas.Where(elem => elem.LayoutId == layoutId).Select(elem => elem.Description).Contains(description))
+            if (areas.Count() == 0)
+            {
+                await Repository.Create(new Area(1, layoutId, description, startCoordX, startCoordY, endCoordX, endCoordY));
+            }
+            else if (!areas.Where(elem => elem.LayoutId == layoutId).Select(elem => elem.Description).Contains(description))
             {
                 int id = areas.Select(elem => elem.Id).Max() + 1;
                 await Repository.Create(new Area(id, layoutId, description, startCoordX, startCoordY, endCoordX, endCoordY));

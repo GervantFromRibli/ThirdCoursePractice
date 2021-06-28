@@ -37,7 +37,11 @@ namespace TicketManagement.BLL
         public async Task CreateEventArea(int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price)
         {
             List<EventArea> areas = GetEventAreas();
-            if (!areas.Where(elem => elem.EventId == eventId).Select(elem => elem.Description).Contains(description))
+            if (areas.Count() == 0)
+            {
+                await Repository.Create(new EventArea(1, eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));
+            }
+            else if (!areas.Where(elem => elem.EventId == eventId).Select(elem => elem.Description).Contains(description))
             {
                 int id = areas.Select(elem => elem.Id).Max() + 1;
                 await Repository.Create(new EventArea(id, eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));

@@ -1,0 +1,32 @@
+﻿@model LayoutViewModel
+@{ 
+    List<string> venueAddresses = new List<string>();
+    venueAddresses.AddRange(Model.FilterVenueAddresses);
+    venueAddresses.Remove("Все");
+}
+<h3 style="margin-top:15px;">
+    Добавление записи
+</h3>
+<hr />
+@using (Html.BeginForm("AddLayout", "Layout", FormMethod.Post))
+{
+    <div>
+        @Html.LabelFor(m => m.Description)
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Description)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.VenueAddress)
+        <div class="col-md-10">
+            <select name="VenueAddress">
+                @foreach (var addr in venueAddresses)
+                {
+                    <option>@addr</option>
+                }
+            </select>
+        </div>
+    </div>
+    <br />
+    <input type="submit" class="btn btn-default" style="left:15px; position:relative" value="Добавить" />
+}

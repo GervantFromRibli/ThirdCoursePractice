@@ -36,15 +36,22 @@ namespace TicketManagement.BLL
 
         public async Task CreateEventSeat(int eventAreaId, int row, int number, string state)
         {
-            var seats = GetEventSeats().Where(elem => elem.EventAreaId == eventAreaId && elem.Row == row && elem.Number == number);
-            if (!seats.Any())
+            if (GetEventSeats().Count() == 0)
             {
-                int id = seats.Select(elem => elem.Id).Max() + 1;
-                await Repository.Create(new EventSeat(id, eventAreaId, row, number, state));
+                await Repository.Create(new EventSeat(1, eventAreaId, row, number, state));
             }
             else
             {
-                throw new Exception("There is an event seat with the same coordinates");
+                var seats = GetEventSeats().Where(elem => elem.EventAreaId == eventAreaId && elem.Row == row && elem.Number == number);
+                if (!seats.Any())
+                {
+                    int id = seats.Select(elem => elem.Id).Max() + 1;
+                    await Repository.Create(new EventSeat(id, eventAreaId, row, number, state));
+                }
+                else
+                {
+                    throw new Exception("There is an event seat with the same coordinates");
+                }
             }
         }
 

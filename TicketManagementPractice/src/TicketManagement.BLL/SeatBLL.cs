@@ -31,20 +31,27 @@ namespace TicketManagement.BLL
 
         public List<Seat> GetSeats()
         {
-            return Repository.GetAll() as List<Seat>;
+            return Repository.GetAll().ToList();
         }
 
         public async Task CreateSeat(int areaId, int row, int number)
         {
-            var seats = GetSeats().Where(elem => elem.AreaId == areaId && elem.Row == row && elem.Number == number);
-            if (!seats.Any())
+            if (Repository.GetAll().Count() == 0)
             {
-                int id = seats.Select(elem => elem.Id).Max() + 1;
-                await Repository.Create(new Seat(id, areaId, row, number));
+                await Repository.Create(new Seat(1, areaId, row, number));
             }
             else
             {
-                throw new Exception("There is a seat with the same coordinates");
+                var seats = GetSeats().Where(elem => elem.AreaId == areaId && elem.Row == row && elem.Number == number);
+                if (!seats.Any())
+                {
+                    int id = Repository.GetAll().Select(elem => elem.Id).Max() + 1;
+                    await Repository.Create(new Seat(id, areaId, row, number));
+                }
+                else
+                {
+                    throw new Exception("There is a seat with the same coordinates");
+                }
             }
         }
 

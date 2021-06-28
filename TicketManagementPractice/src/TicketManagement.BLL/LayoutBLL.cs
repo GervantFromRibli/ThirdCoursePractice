@@ -31,13 +31,17 @@ namespace TicketManagement.BLL
 
         public List<Layout> GetLayouts()
         {
-            return Repository.GetAll() as List<Layout>;
+            return Repository.GetAll().ToList();
         }
 
         public async Task CreateLayout(int venueId, string description)
         {
             List<Layout> layouts = GetLayouts();
-            if (!layouts.Where(elem => elem.VenueId == venueId).Select(elem => elem.Description).Contains(description))
+            if (layouts.Count() == 0)
+            {
+                await Repository.Create(new Layout(1, venueId, description));
+            }
+            else if (!layouts.Where(elem => elem.VenueId == venueId).Select(elem => elem.Description).Contains(description))
             {
                 int id = layouts.Select(elem => elem.Id).Max() + 1;
                 await Repository.Create(new Layout(id, venueId, description));
