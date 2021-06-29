@@ -1,0 +1,30 @@
+﻿@model TicketManagement.Web.Models.PurchaseViewModel
+@{
+    ViewBag.Title = "Покупка билета";
+    int rowNumb = Model.PurchaseAreaViewModels.Select(elem => elem.)
+}
+<body>
+    <H1 style="margin-top:15px;">@ViewBag.Title:</H1>
+    <div>
+        <img src="~/images/@Model.Event.ImagePath" />
+        <span>Название: @Model.Event.Name</span>
+        <span>Описание: @Model.Event.Description</span>
+        <span>Начало события: @Model.Event.StartDate</span>
+        <span>Конец события: @Model.Event.EndDate</span>
+    </div>
+    <br />
+    <table>
+
+    </table>
+    <div>
+        @foreach (var elem in Model.Events) 
+        { 
+            <a asp-action="Index" asp-route-id="@elem.Id"><div class="block_a"><img src="~/images/@elem.ImageUrl" /><span class="block_a"><br />@elem.Name<br/>@elem.Description<br />@elem.Count</span></div></a>
+            countNumb++;
+            if (countNumb == 4) 
+            {
+                <br />
+            }
+        }
+    </div>
+</body>

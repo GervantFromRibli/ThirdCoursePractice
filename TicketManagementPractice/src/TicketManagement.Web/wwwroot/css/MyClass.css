@@ -1,0 +1,40 @@
+﻿.block_a
+{ 
+	width: 200px;
+	height: 200px;
+	left: 5%;
+	overflow: hidden;
+	transition: 0.3s; 
+	display: inline-block;
+	position: relative;
+	color: #fff; 
+}
+.block_a span
+{
+	visibility: hidden;	
+}
+.block_a img
+{
+	z-index: 3;
+	position: relative;
+	transition: 0.3s;
+	width: 100%; 
+}
+.block_a:hover span
+{
+	transition: 0.3s;
+	font-size: 20px;
+	visibility: visible;
+	font-family:Monotype Corsiva;
+	font-style:italic;
+	
+}
+.block_a:hover
+{
+	background-color: rgba(0, 0, 0, 0.65); 
+}
+.block_a:hover img
+{
+	transform: scale(1.1);
+	filter: blur(4px); 
+}

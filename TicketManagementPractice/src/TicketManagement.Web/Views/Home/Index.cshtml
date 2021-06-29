@@ -1,8 +1,64 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model TicketManagement.Web.Models.HomeViewModel
+@{
+    ViewBag.Title = "Главная страница";
+    int countNumb = 0;
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<script>
+    function SetSession() {
+        sessionStorage.setItem("name", $("#value1").val());
+        sessionStorage.setItem("description", $("#value2").val());
+    }
+    function GetSession() {
+        $("#value1").val(sessionStorage.getItem("name"));
+        $("#value2").val(sessionStorage.getItem("description"));
+    }
+</script>
+<body onbeforeunload="SetSession()" onload="GetSession()">
+    <H1 style="margin-top:15px;">@ViewBag.Title:</H1>
+    <form method="get">
+        <div>
+            <label class="control-label">Название:&nbsp;</label>
+            <input name="name" id="value1" class="form-control" />
+        </div>
+        <div>
+            <label class="control-label">Описание:&nbsp;</label>
+            <input name="description" id="value2" class="form-control" />
+        </div>
+        <br />
+        <div>
+            <input type="submit" value="Фильтр" class="btn btn-default" />
+        </div>
+    </form>
+    <br />
+    <div>
+        @foreach (var elem in Model.Events) 
+        { 
+            <a asp-action="Index" asp-route-id="@elem.Id"><div class="block_a"><img src="~/images/@elem.ImageUrl" /><span class="block_a"><br />@elem.Name<br/>@elem.Description<br />@elem.Count</span></div></a>
+            countNumb++;
+            if (countNumb == 4) 
+            {
+                <br />
+            }
+        }
+    </div>
+    <div>
+        @if (Model.PageViewModel.HasPreviousPage)
+        {
+            <a asp-action="Index"
+               asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+               class="btn" style="border:2px solid white;">
+                <i class="glyphicon glyphicon-chevron-left"></i>
+                Назад
+            </a>
+        }
+        @if (Model.PageViewModel.HasNextPage)
+        {
+            <a asp-action="Index"
+               asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+               class="btn" style="border:2px solid white;">
+                Вперед
+                <i class="glyphicon glyphicon-chevron-right"></i>
+            </a>
+        }
+    </div>
+</body>
