@@ -10,6 +10,10 @@ namespace TicketManagement.Web.Models
     {
         public Event Event { get; set; }
 
-        public List<PurchaseAreaViewModel> PurchaseAreaViewModels { get; set; }
+        public int RowCount { get; set; }
+
+        public int NumbCount { get; set; }
+
+        public List<PurchaseSeatViewModel> PurchaseSeatViewModels { get; set; }
     }
 }

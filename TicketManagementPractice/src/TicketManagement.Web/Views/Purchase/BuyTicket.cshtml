@@ -1,0 +1,35 @@
+﻿@model TicketManagement.Web.Models.BuyTicketViewModel
+@{
+    ViewBag.Title = "Покупка билета";
+}
+<body>
+    @using (Html.BeginForm("BuyNewTicket", "Purchase", FormMethod.Post))
+    {
+        <H1 style="margin-top:15px;">@ViewBag.Title:</H1>
+        <div>
+            <p>Данные билета:</p>
+            <br />
+            <p>Название события: @Model.EventName</p>
+            <p>Описание зоны: @Model.AreaDescription</p>
+            <p>Ряд: @Model.Row</p>
+            <p>Место: @Model.Number</p>
+            <p>Цена: @Model.Price</p>
+        </div>
+        <div>Вы хотите купить данный билет?</div>
+        <input type="number" name="id" value="@Model.Id" style="display: none;"/>
+        <input type="text" name="userName" value="@User.Identity.Name" style="display:none;" />
+        <div>
+            <input type="submit" id="confirm" value="Да" name="confirm" />
+            <input type="submit" value="Нет" name="confirm">
+        </div>
+        <br />
+    }
+</body>
+<script>
+    window.onbeforeunload = function () {
+        $.ajax({
+            url: '@Url.Action("BuyNewTicket", "Purchase", new { id = Model.Id, userName = User.Identity.Name, confirm = "Нет"})',
+            data: {"confirm": "Нет"}
+        }).done(function (res) { window.location.href = res });
+    }
+</script>

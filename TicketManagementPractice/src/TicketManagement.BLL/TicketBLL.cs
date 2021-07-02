@@ -33,12 +33,12 @@ namespace TicketManagement.BLL
 
         public List<Ticket> GetTickets()
         {
-            return Repository.GetAll() as List<Ticket>;
+            return Repository.GetAll().ToList();
         }
 
         public async Task CreateTicket(int eventSeatId, string userId)
         {
-            var tickets = GetTickets();
+            var tickets = GetTickets() ?? new List<Ticket>();
             if (tickets.Count() == 0)
             {
                 await Repository.Create(new Ticket(1, eventSeatId, userId));

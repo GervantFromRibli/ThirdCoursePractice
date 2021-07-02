@@ -57,8 +57,8 @@ namespace TicketManagement.BLL
 
         public async Task UpdateEventSeat(int id, int eventAreaId, int row, int number, string state)
         {
-            var seats = GetEventSeats().Where(elem => elem.EventAreaId == eventAreaId && elem.Row == row && elem.Number == number);
-            if (!seats.Any())
+            var seats = GetEventSeats().Where(elem => elem.EventAreaId == eventAreaId && elem.Row == row && elem.Number == number) ?? new List<EventSeat>();
+            if (seats.Count() == 0 || seats.First().Id == id)
             {
                 await Repository.Update(new EventSeat(id, eventAreaId, row, number, state));
             }

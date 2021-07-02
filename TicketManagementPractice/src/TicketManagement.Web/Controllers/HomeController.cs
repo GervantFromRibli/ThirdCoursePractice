@@ -51,19 +51,6 @@ namespace TicketManagement.Web.Controllers
             return View(homeViewModel);
         }
 
-        [HttpPost]
-        public IActionResult Index(int id)
-        {
-            if (_eventBLL.GetEvents().Where(elem => elem.Id == id).Count() > 0)
-            {
-                return RedirectToAction("Index", "Purchase", new { id });
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-        }
-
         private List<EventShowViewModel> GetModels()
         {
             List<Event> events = _eventBLL.GetEvents() ?? new List<Event>();

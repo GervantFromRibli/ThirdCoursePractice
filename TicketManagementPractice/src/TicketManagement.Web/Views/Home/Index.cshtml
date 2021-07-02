@@ -31,11 +31,18 @@
     </form>
     <br />
     <div>
-        @foreach (var elem in Model.Events) 
-        { 
-            <a asp-action="Index" asp-route-id="@elem.Id"><div class="block_a"><img src="~/images/@elem.ImageUrl" /><span class="block_a"><br />@elem.Name<br/>@elem.Description<br />@elem.Count</span></div></a>
+        @foreach (var elem in Model.Events)
+        {
+            if (User.IsInRole("Базовый пользователь"))
+            {
+                <a asp-action="Index" asp-controller="Purchase" asp-route-id="@elem.Id"><div class="block_a"><img src="~/images/@elem.ImageUrl" /><span class="block_a"><br />@elem.Name<br />@elem.Description<br />@elem.Count</span></div></a>
+            }
+            else
+            {
+                <div class="block_a"><img src="~/images/@elem.ImageUrl" /><span class="block_a"><br />@elem.Name<br />@elem.Description<br />@elem.Count</span></div>
+            }
             countNumb++;
-            if (countNumb == 4) 
+            if (countNumb == 4)
             {
                 <br />
             }

@@ -122,3 +122,5 @@ D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\sr
 D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\EventSeat\Index.cshtml.g.cs
 D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\EventSeat\_AddEventSeat.cshtml.g.cs
 D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\EventSeat\_UpdateEventSeat.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Purchase\Index.cshtml.g.cs
+D:\programms\ThirdCoursePractice\ThirdCoursePractice\TicketManagementPractice\src\TicketManagement.Web\obj\Debug\netcoreapp3.1\Razor\Views\Purchase\BuyTicket.cshtml.g.cs
