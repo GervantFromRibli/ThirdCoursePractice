@@ -27,14 +27,13 @@ namespace TicketManagement.Web.Controllers
             List<AreaCorrectViewModel> areaCorrectViewModels = GetModels();
 
             List<string> descriptions = _layoutBLL.GetLayouts().Select(elem => elem.Description).ToList();
-            descriptions.Add("Все");
             ViewBag.Message = message;
             if (description != null)
             {
                 areaCorrectViewModels = areaCorrectViewModels.Where(item => item.Description.Contains(description)).ToList();
             }
 
-            if (layoutDescr != "Все")
+            if (layoutDescr != "Все" && layoutDescr != "All" && layoutDescr != "Усе")
             {
                 areaCorrectViewModels = areaCorrectViewModels.Where(item => item.LayoutDescription == layoutDescr).ToList();
             }
@@ -91,7 +90,7 @@ namespace TicketManagement.Web.Controllers
         [HttpPost]
         public IActionResult UpdateArea(AreaViewModel model, string action = null)
         {
-            if (action == "Удалить зону")
+            if (action == "Удалить зону" || action == "Delete area" || action == "Выдаліць зону")
             {
                 return DeleteArea(model.Id);
             }
@@ -112,31 +111,7 @@ namespace TicketManagement.Web.Controllers
 
         private string VerificationOfArea(AreaViewModel model)
         {
-            var descrs = model.Areas.Select(elem => elem.Description);
-            if (model.Description == null || model.StartCoordX == null || model.StartCoordY == null || model.EndCoordY == null || model.EndCoordX == null)
-            {
-                return "Отсутствие значений в строках";
-            }
-            if (model.Description.Length == 0 || model.Description.Length > 100 || descrs.Contains(model.Description))
-            {
-                return "Неправильное описание";
-            }
-            if (model.StartCoordX >= model.EndCoordX || model.StartCoordY >= model.EndCoordY)
-            {
-                return "Неправильный порядок координат";
-            }
-            foreach (var area in _areaBLL.GetAreas() ?? new List<Area>())
-            {
-                if (model.StartCoordX > area.StartCoordX && model.StartCoordX < area.EndCoordX && model.StartCoordY > area.StartCoordY && model.StartCoordY < model.EndCoordY)
-                {
-                    return "Неправильная начальная координата; начальная координата не должна быть внутри другой зоны";
-                }
-                if (model.EndCoordX > area.StartCoordX && model.EndCoordX < area.EndCoordX && model.EndCoordY > area.StartCoordY && model.EndCoordY < model.EndCoordY)
-                {
-                    return "Неправильная конечная координата; конечная координата не должна быть внутри другой зоны";
-                }
-            }
-            return "Ok";
+            return _areaBLL.VerificationOfArea(model.Id, model.Description, model.StartCoordX, model.StartCoordY, model.EndCoordX, model.EndCoordY);
         }
 
         private List<AreaCorrectViewModel> GetModels()

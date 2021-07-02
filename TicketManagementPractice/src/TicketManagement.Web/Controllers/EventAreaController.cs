@@ -27,14 +27,13 @@ namespace TicketManagement.Web.Controllers
             List<EventAreaCorrectViewModel> eventAreaCorrectViewModels = GetModels();
 
             List<string> names = _eventBLL.GetEvents().Select(elem => elem.Name).ToList();
-            names.Add("Все");
             ViewBag.Message = message;
             if (description != null)
             {
                 eventAreaCorrectViewModels = eventAreaCorrectViewModels.Where(item => item.Description.Contains(description)).ToList();
             }
 
-            if (eventName != "Все")
+            if (eventName != "Все" && eventName != "All" && eventName != "Усе")
             {
                 eventAreaCorrectViewModels = eventAreaCorrectViewModels.Where(item => item.EventName == eventName).ToList();
             }
@@ -92,7 +91,7 @@ namespace TicketManagement.Web.Controllers
         [HttpPost]
         public IActionResult UpdateEventArea(EventAreaViewModel model, string action = null)
         {
-            if (action == "Удалить зону события")
+            if (action == "Удалить зону события" || action == "Delete event area" || action == "Выдаліць зону падзеі")
             {
                 return DeleteEventArea(model.Id);
             }
@@ -113,32 +112,7 @@ namespace TicketManagement.Web.Controllers
 
         private string VerificationOfEventArea(EventAreaViewModel model)
         {
-            var descrs = model.EventAreas.Where(elem => elem.EventName == model.EventName).Select(elem => elem.Description);
-            var eventId = _eventBLL.GetEvents().Where(elem => elem.Name == model.EventName).First().Id;
-            if (model.Description == null || model.StartCoordX == null || model.StartCoordY == null || model.EndCoordY == null || model.EndCoordX == null)
-            {
-                return "Отсутствие значений в строках";
-            }
-            if (model.Description.Length == 0 || model.Description.Length > 100 || descrs.Contains(model.Description))
-            {
-                return "Неправильное описание";
-            }
-            if (model.StartCoordX >= model.EndCoordX || model.StartCoordY >= model.EndCoordY)
-            {
-                return "Неправильный порядок координат";
-            }
-            foreach (var area in _eventAreaBLL.GetEventAreas().Where(elem => elem.EventId == eventId) ?? new List<EventArea>())
-            {
-                if (model.StartCoordX > area.StartCoordX && model.StartCoordX < area.EndCoordX && model.StartCoordY > area.StartCoordY && model.StartCoordY < model.EndCoordY)
-                {
-                    return "Неправильная начальная координата; начальная координата не должна быть внутри другой зоны";
-                }
-                if (model.EndCoordX > area.StartCoordX && model.EndCoordX < area.EndCoordX && model.EndCoordY > area.StartCoordY && model.EndCoordY < model.EndCoordY)
-                {
-                    return "Неправильная конечная координата; конечная координата не должна быть внутри другой зоны";
-                }
-            }
-            return "Ok";
+            return _eventAreaBLL.VerificationOfEventArea(model.Id, model.Description, model.StartCoordX, model.StartCoordY, model.EndCoordX, model.EndCoordY);
         }
 
         private List<EventAreaCorrectViewModel> GetModels()

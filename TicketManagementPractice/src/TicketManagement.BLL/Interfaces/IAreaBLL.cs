@@ -17,5 +17,8 @@ namespace TicketManagement.BLL
         public Task CreateArea(int layoutId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY);
 
         public Task UpdateArea(int id, int layoutId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY);
+
+        public string VerificationOfArea(int id, string descr, int? startX, int? startY, int? endX, int? endY);
+
     }
 }

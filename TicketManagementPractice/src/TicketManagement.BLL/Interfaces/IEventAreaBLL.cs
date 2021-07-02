@@ -17,5 +17,7 @@ namespace TicketManagement.BLL
         public Task CreateEventArea(int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price);
 
         public Task UpdateEventArea(int id, int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price);
+
+        public string VerificationOfEventArea(int id, string description, int? startX, int? startY, int? endX, int? endY);
     }
 }

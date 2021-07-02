@@ -15,7 +15,7 @@ namespace TicketManagement.DAL
     /// Класс-имплементация Entity Framework для работы с интерфейсом
     /// IRepository
     /// </summary>
-    internal class EventRepository : IEventRepository
+    internal class EventRepository : IRepository<Event>
     {
         public EventRepository(ApplicationContext context)
         {
@@ -30,62 +30,6 @@ namespace TicketManagement.DAL
         }
 
         protected DbContext DbContext { get; set; }
-
-        public int CheckExistEvent(Event item)
-        {
-            string sql = "EXEC CheckExistEvent @LayoutId, @StartDate, @EndDate, @Result OUTPUT";
-
-            List<SqlParameter> prms = new List<SqlParameter>
-            {
-                new SqlParameter
-                {
-                    ParameterName = "LayoutId",
-                    Value = item.LayoutId,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "StartDate",
-                    Value = item.StartDate,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "EndDate",
-                    Value = item.EndDate,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "Result",
-                    SqlDbType = System.Data.SqlDbType.Int,
-                    Direction = System.Data.ParameterDirection.Output,
-                },
-            };
-
-            DbContext.Database.ExecuteSqlRawAsync(sql, prms);
-            return 0;
-        }
-
-        public int CheckSeatsInEvent(Event item)
-        {
-            string sql = "EXEC CheckSeatsInEvent @LayoutId, @Result OUTPUT";
-
-            List<SqlParameter> prms = new List<SqlParameter>
-            {
-                new SqlParameter
-                {
-                    ParameterName = "LayoutId",
-                    Value = item.LayoutId,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "Result",
-                    SqlDbType = System.Data.SqlDbType.Int,
-                    Direction = System.Data.ParameterDirection.Output,
-                },
-            };
-
-            DbContext.Database.ExecuteSqlRawAsync(sql, prms);
-            return 1;
-        }
 
         /// <inheritdoc cref="IRepository{T}.Create(T)"/>
         public async Task Create(Event item)

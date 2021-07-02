@@ -12,10 +12,12 @@ namespace TicketManagement.BLL
     internal class EventSeatBLL : IEventSeatBLL
     {
         protected IRepository<EventSeat> Repository { get; set; }
+        protected IRepository<EventArea> AreaRepository { get; set; }
 
         public EventSeatBLL(DbContext context)
         {
             Repository = new EventSeatRepository(context);
+            AreaRepository = new EventAreaRepository(context);
         }
 
         public async Task<EventSeat> GetEventSeat(int id)
@@ -42,30 +44,39 @@ namespace TicketManagement.BLL
             }
             else
             {
-                var seats = GetEventSeats().Where(elem => elem.EventAreaId == eventAreaId && elem.Row == row && elem.Number == number);
-                if (!seats.Any())
-                {
-                    int id = Repository.GetAll().Select(elem => elem.Id).Max() + 1;
-                    await Repository.Create(new EventSeat(id, eventAreaId, row, number, state));
-                }
-                else
-                {
-                    throw new Exception("There is an event seat with the same coordinates");
-                }
+                int id = Repository.GetAll().Select(elem => elem.Id).Max() + 1;
+                await Repository.Create(new EventSeat(id, eventAreaId, row, number, state));
             }
         }
 
         public async Task UpdateEventSeat(int id, int eventAreaId, int row, int number, string state)
         {
-            var seats = GetEventSeats().Where(elem => elem.EventAreaId == eventAreaId && elem.Row == row && elem.Number == number) ?? new List<EventSeat>();
-            if (seats.Count() == 0 || seats.First().Id == id)
+            await Repository.Update(new EventSeat(id, eventAreaId, row, number, state));
+        }
+
+        public string VerificationOfEventSeat(int id, int? row, int? number, string state)
+        {
+            var seatElem = GetEventSeat(id).Result;
+            var seats = GetEventSeats().Where(elem => elem.EventAreaId == seatElem.EventAreaId && elem.Id != id).ToList();
+            var area = AreaRepository.GetById(seatElem.EventAreaId).Result;
+            if (row == null || number == null || state == null)
             {
-                await Repository.Update(new EventSeat(id, eventAreaId, row, number, state));
+                return "NoValues";
             }
-            else
+            var rowCoord = area.StartCoordY + row;
+            var numberCoord = area.StartCoordX + number;
+            if (rowCoord > area.EndCoordY || numberCoord > area.EndCoordX || row < 1 || number < 1)
             {
-                throw new Exception("There is an event seat with the same coordinates");
+                return "NoInArea";
             }
+            foreach (var seat in seats)
+            {
+                if (row == seat.Row && number == seat.Number)
+                {
+                    return "ExistSeat";
+                }
+            }
+            return "Ok";
         }
     }
 }

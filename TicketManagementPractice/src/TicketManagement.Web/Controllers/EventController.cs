@@ -27,14 +27,13 @@ namespace TicketManagement.Web.Controllers
             List<EventCorrectViewModel> eventCorrectViewModels = GetModels();
 
             List<string> descriptions = _layoutBLL.GetLayouts().Select(elem => elem.Description).ToList();
-            descriptions.Add("Все");
             ViewBag.Message = message;
             if (name != null)
             {
                 eventCorrectViewModels = eventCorrectViewModels.Where(item => item.Name.Contains(name)).ToList();
             }
 
-            if (layoutDescr != "Все")
+            if (layoutDescr != "Все" && layoutDescr != "All" && layoutDescr != "Усе")
             {
                 eventCorrectViewModels = eventCorrectViewModels.Where(item => item.LayoutDescription == layoutDescr).ToList();
             }
@@ -91,7 +90,7 @@ namespace TicketManagement.Web.Controllers
         [HttpPost]
         public IActionResult UpdateEvent(EventViewModel model, string action = null)
         {
-            if (action == "Удалить событие")
+            if (action == "Удалить событие" || action == "Delete event" || action == "Выдаліць падзею")
             {
                 return DeleteEvent(model.Id);
             }
@@ -112,25 +111,7 @@ namespace TicketManagement.Web.Controllers
 
         private string VerificationOfEvent(EventViewModel model)
         {
-            var names = model.Events.Select(elem => elem.Name);
-            var descrs = model.Events.Select(elem => elem.Description);
-            if (model.Description == null || model.Name == null || model.StartDate == null || model.EndDate == null)
-            {
-                return "Отсутствие значений в строках";
-            }
-            if (model.Description.Length == 0 || model.Description.Length > 100 || descrs.Contains(model.Description))
-            {
-                return "Неправильное описание";
-            }
-            if (model.Name.Length == 0 || model.Name.Length > 20 || names.Contains(model.Name))
-            {
-                return "Неправильное имя";
-            }
-            if (model.StartDate >= model.EndDate || model.StartDate <= DateTime.Now)
-            {
-                return "Неправильные даты";
-            }
-            return "Ok";
+            return _eventBLL.VerificationOfEvent(model.Id, model.Name, model.Description, model.StartDate, model.EndDate);
         }
 
         private List<EventCorrectViewModel> GetModels()

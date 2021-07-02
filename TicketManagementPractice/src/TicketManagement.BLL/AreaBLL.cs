@@ -41,28 +41,46 @@ namespace TicketManagement.BLL
             {
                 await Repository.Create(new Area(1, layoutId, description, startCoordX, startCoordY, endCoordX, endCoordY));
             }
-            else if (!areas.Where(elem => elem.LayoutId == layoutId).Select(elem => elem.Description).Contains(description))
+            else
             {
                 int id = areas.Select(elem => elem.Id).Max() + 1;
                 await Repository.Create(new Area(id, layoutId, description, startCoordX, startCoordY, endCoordX, endCoordY));
-            }
-            else
-            {
-                throw new Exception("There is an area with the same description");
             }
         }
 
         public async Task UpdateArea(int id, int layoutId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY)
         {
-            List<Area> areas = GetAreas();
-            if (!areas.Where(elem => elem.LayoutId == layoutId).Select(elem => elem.Description).Contains(description))
+            await Repository.Update(new Area(id, layoutId, description, startCoordX, startCoordY, endCoordX, endCoordY));
+        }
+
+        public string VerificationOfArea(int id, string descr, int? startX, int? startY, int? endX, int? endY)
+        {
+            var areaElem = Repository.GetById(id).Result;
+            var descrs = Repository.GetAll().Where(elem => elem.LayoutId == areaElem.LayoutId && elem.Id != id).Select(elem => elem.Description);
+            if (descr == null || startX == null || startY == null || endY == null || endX == null)
             {
-                await Repository.Update(new Area(id, layoutId, description, startCoordX, startCoordY, endCoordX, endCoordY));
+                return "NoValue";
             }
-            else
+            if (descr.Length == 0 || descr.Length > 100 || descrs.Contains(descr))
             {
-                throw new Exception("There is an area with the same description");
+                return "WrongDescr";
             }
+            if (startX >= endX || startY >= endY)
+            {
+                return "WrongCoordStep";
+            }
+            foreach (var area in GetAreas() ?? new List<Area>())
+            {
+                if (startX > area.StartCoordX && startX < area.EndCoordX && startY > area.StartCoordY && startY < endY && area.Id != id)
+                {
+                    return "WrongStartCoord";
+                }
+                if (endX > area.StartCoordX && endX < area.EndCoordX && endY > area.StartCoordY && endY < area.EndCoordY && area.Id != id)
+                {
+                    return "WrongEndCoord";
+                }
+            }
+            return "Ok";
         }
     }
 }

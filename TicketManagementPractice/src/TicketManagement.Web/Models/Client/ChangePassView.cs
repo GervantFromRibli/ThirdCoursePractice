@@ -11,7 +11,6 @@ namespace TicketManagement.Web.Models
         public string Id { get; set; }
 
         [Required]
-        [Display(Name = "Новый пароль")]
         public string Password { get; set; }
     }
 }

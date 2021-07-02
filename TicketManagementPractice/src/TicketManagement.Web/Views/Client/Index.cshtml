@@ -1,8 +1,10 @@
-﻿@model TicketManagement.Web.Models.ClientView 
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model TicketManagement.Web.Models.ClientView 
 
 <form method="post" asp-controller="Client" asp-action="ChangeData">
     <div class="text-center">
-        <h2>Профиль</h2>
+        <h2>@Localizer["Title"]</h2>
         <div asp-validation-summary="ModelOnly"></div>
         <input asp-for="Id" id="id" style="display:none;"/>
         <div id="emailDiv">
@@ -11,17 +13,17 @@
             <span asp-validation-for="Email"></span>
         </div>
         <div id="surnameDiv">
-            <label asp-for="Surname"></label><br />
+            <label class="control-label">@Localizer["Surname"]</label><br />
             <input asp-for="Surname" id="surname" readonly="readonly" />
             <span asp-validation-for="Surname"></span>
         </div>
         <div id="nameDiv">
-            <label asp-for="FirstName"></label><br />
+            <label class="control-label">@Localizer["Name"]</label><br />
             <input asp-for="FirstName" id="firstName" readonly="readonly" />
             <span asp-validation-for="FirstName"></span>
         </div>
         <div id="langDiv">
-            <label asp-for="Language"></label><br />
+            <label class="control-label">@Localizer["Lang"]</label><br />
             <select asp-for="Language" id="language">
                 <option>Беларуская</option>
                 <option>Русский</option>
@@ -29,44 +31,38 @@
             </select>
         </div>
         <div id="balanceDiv">
-            <label asp-for="Balance"></label><br />
+            <label class="control-label">@Localizer["Balance"]</label><br />
             <input type="number" asp-for="Balance" id="balance" readonly="readonly" min=@ViewBag.balance />
             <span asp-validation-for="FirstName"></span>
         </div>
         <hr />
         <div>
-            <input type="button" value="Изменить данные" id="changeData" class="changeData" onclick="ChangeData()" />
-            <input type="submit" value="Сохранить изменения" id="acceptData" style="display:none;" />
+            <input type="button" value="@Localizer["ChangeData"]" id="changeData" class="changeData" onclick="ChangeData()" />
+            <input type="submit" value="@Localizer["SaveData"]" id="acceptData" style="display:none;" />
         </div>
-        <button formmethod="get" asp-controller="Client" asp-action="ChangePassword" asp-route-id=@ViewBag.id id="changePass">Изменить пароль</button>
+        <button formmethod="get" asp-controller="Client" asp-action="ChangePassword" asp-route-id=@ViewBag.id id="changePass">@Localizer["ChangePass"]</button>
     </div>
 </form>
 <table class="text-center">
     <thead>
         <tr>
             <td>
-                <a asp-action="Index" asp-route-type="Id">Id</a>
+                @Localizer["EventName"]
             </td>
             <td>
-                <a asp-action="Index" asp-route-type="client">Название клиента</a>
+                @Localizer["StartDate"]
             </td>
             <td>
-                <a asp-action="Index" asp-route-type="furnit">Название мебели</a>
+                @Localizer["EndDate"]
             </td>
             <td>
-                <a asp-action="Index" asp-route-type="count">Кол-во мебели</a>
+                @Localizer["AreaDescr"]
             </td>
             <td>
-                <a asp-action="Index" asp-route-type="price">Цена</a>
+                @Localizer["Row"]
             </td>
             <td>
-                <a asp-action="Index" asp-route-type="disc">Скидка</a>
-            </td>
-            <td>
-                <a asp-action="Index" asp-route-type="isComp">Выполнен?</a>
-            </td>
-            <td>
-                <a asp-action="Index" asp-route-type="empl">ФИО сотрудника</a>
+                @Localizer["Number"]
             </td>
         </tr>
     </thead>
@@ -77,6 +73,22 @@
             {
                 <tr>
                     <td>
+                        @elem.EventName
+                    </td>
+                    <td>
+                        @elem.StartDate
+                    </td>
+                    <td>
+                        @elem.EndDate
+                    </td>
+                    <td>
+                        @elem.AreaDescr
+                    </td>
+                    <td>
+                        @elem.Row
+                    </td>
+                    <td>
+                        @elem.Number
                     </td>
                 </tr>
             }

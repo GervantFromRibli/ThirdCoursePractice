@@ -18,12 +18,18 @@ namespace TicketManagement.Web.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private ITicketBLL _ticketBLL;
+        private IEventSeatBLL _eventSeatBLL;
+        private IEventAreaBLL _eventAreaBLL;
+        private IEventBLL _eventBLL;
 
         public ClientController(ApplicationContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _ticketBLL = new TicketBLL(context);
+            _eventSeatBLL = new EventSeatBLL(context);
+            _eventAreaBLL = new EventAreaBLL(context);
+            _eventBLL = new EventBLL(context);
         }
 
         [HttpGet]
@@ -38,7 +44,7 @@ namespace TicketManagement.Web.Controllers
                 Language = user.Language,
                 Surname = user.Surname,
                 Balance = (int)user.Balance,
-                Tickets = _ticketBLL.GetUserTickets(user.Id)
+                Tickets = GetTicketModels(user.Id)
             };
             ViewBag.id = clientView.Id;
             ViewBag.balance = clientView.Balance;
@@ -113,10 +119,32 @@ namespace TicketManagement.Web.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Пользователь не найден");
+                    ModelState.AddModelError(string.Empty, "No user was found");
                 }
             }
             return View(view);
+        }
+
+        private List<TicketInfoViewModel> GetTicketModels(string id)
+        {
+            List<TicketInfoViewModel> ticketInfoViewModels = new List<TicketInfoViewModel>();
+            var tickets = _ticketBLL.GetTickets().Where(elem => elem.UserId == id).ToList();
+            foreach (var ticket in tickets)
+            {
+                var seat = _eventSeatBLL.GetEventSeat(ticket.EventSeatId).Result;
+                var area = _eventAreaBLL.GetEventArea(seat.EventAreaId).Result;
+                var eventElem = _eventBLL.GetEvent(area.EventId).Result;
+                ticketInfoViewModels.Add(new TicketInfoViewModel()
+                {
+                    EndDate = eventElem.EndDate,
+                    AreaDescr = area.Description,
+                    StartDate = eventElem.StartDate,
+                    EventName = eventElem.Name,
+                    Number = seat.Number,
+                    Row = seat.Row
+                });
+            }
+            return ticketInfoViewModels;
         }
     }
 }

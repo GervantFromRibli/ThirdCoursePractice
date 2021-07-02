@@ -1,11 +1,13 @@
-﻿@model EventAreaViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model EventAreaViewModel
 @{ 
     List<string> eventNames = new List<string>();
     eventNames.AddRange(Model.FilterEventNames);
-    eventNames.Remove("Все");
+    eventNames.Remove(Localizer["All"].Value);
 }
 <h3 style="margin-top:15px;">
-    Изменение записи
+    @Localizer["Title"]
 </h3>
 @using (Html.BeginForm("UpdateEventArea", "EventArea", FormMethod.Post))
 {
@@ -19,17 +21,17 @@
                 }
             </select>
             &nbsp;
-            <input name="action" type="submit" style="border:hidden; width:200px" value="Удалить зону события" />
+            <input name="action" type="submit" style="border:hidden; width:200px" value="@Localizer["Remove"]" />
         </div>
     </div>
     <div>
-        @Html.LabelFor(m => m.Description)
+        <label class="control-label">@Localizer["Descr"]:&nbsp;</label>
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Description)
         </div>
     </div>
     <div>
-        @Html.LabelFor(m => m.EventName)
+        <label class="control-label">@Localizer["EventName"]:&nbsp;</label>
         <div class="col-md-10">
             <select name="EventName">
                 @foreach (var addr in eventNames)
@@ -40,36 +42,36 @@
         </div>
     </div>
     <div>
-        @Html.LabelFor(m => m.StartCoordX)
+        <label class="control-label">@Localizer["startX"]:&nbsp;</label>
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.StartCoordX)
         </div>
     </div>
     <div>
-        @Html.LabelFor(m => m.StartCoordY)
+        <label class="control-label">@Localizer["startY"]:&nbsp;</label>
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.StartCoordY)
         </div>
     </div>
     <div>
-        @Html.LabelFor(m => m.EndCoordX)
+        <label class="control-label">@Localizer["endX"]:&nbsp;</label>
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.EndCoordX)
         </div>
     </div>
     <div>
-        @Html.LabelFor(m => m.EndCoordY)
+        <label class="control-label">@Localizer["endY"]:&nbsp;</label>
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.EndCoordY)
         </div>
     </div>
     <div>
-        @Html.LabelFor(m => m.Price)
+        <label class="control-label">@Localizer["Price"]:&nbsp;</label>
         <div class="col-md-10">
             <input type="number" asp-for="Price" min="0" />
         </div>
     </div>
     <br />
-    <input type="submit" class="btn btn-default" style="left:15px; position:relative" value="Изменить" />
+    <input type="submit" class="btn btn-default" style="left:15px; position:relative" value="@Localizer["Change"]" />
 }
 

@@ -27,10 +27,9 @@ namespace TicketManagement.Web.Controllers
             List<EventSeatCorrectViewModel> eventSeatCorrectViewModels = GetModels();
 
             List<string> descriptions = _eventAreaBLL.GetEventAreas().Select(elem => elem.Description).ToList();
-            descriptions.Add("Все");
             ViewBag.Message = message;
 
-            if (eventAreaDescr != "Все")
+            if (eventAreaDescr != "Все" && eventAreaDescr != "All" && eventAreaDescr != "Усе")
             {
                 eventSeatCorrectViewModels = eventSeatCorrectViewModels.Where(item => item.EventAreaDescription == eventAreaDescr).ToList();
             }
@@ -84,7 +83,7 @@ namespace TicketManagement.Web.Controllers
         [HttpPost]
         public IActionResult UpdateEventSeat(EventSeatViewModel model, string action = null)
         {
-            if (action == "Удалить место события")
+            if (action == "Удалить место события" || action == "Delete event seat" || action == "Выдаліць месца падзеі")
             {
                 return DeleteEventSeat(model.Id);
             }
@@ -104,26 +103,7 @@ namespace TicketManagement.Web.Controllers
 
         private string VerificationOfEventSeat(EventSeatViewModel model)
         {
-            var seats = model.EventSeats.Where(elem => elem.EventAreaDescription == model.EventAreaDescription).ToList() ?? new List<EventSeatCorrectViewModel>();
-            var area = _eventAreaBLL.GetEventAreas().Where(elem => elem.Description == model.EventAreaDescription).First();
-            if (model.Row == null || model.Number == null || model.State == null)
-            {
-                return "Отсутствие значений в строках";
-            }
-            var rowCoord = area.StartCoordY + model.Row;
-            var numberCoord = area.StartCoordX + model.Number;
-            if (rowCoord > area.EndCoordY || numberCoord > area.EndCoordX)
-            {
-                return "Место находится за границами зоны";
-            }
-            foreach (var seat in seats)
-            {
-                if (model.Row == seat.Row && model.Number == seat.Number)
-                {
-                    return "Уже существует данное место";
-                }
-            }
-            return "Ok";
+            return _eventSeatBLL.VerificationOfEventSeat(model.Id, model.Row, model.Number, model.State);
         }
 
         private List<EventSeatCorrectViewModel> GetModels()

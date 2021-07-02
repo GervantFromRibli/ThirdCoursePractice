@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using TicketManagement.Web.Models;
 using TicketManagement.BLL;
 using TicketManagement.DAL;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace TicketManagement.Web
 {
@@ -35,8 +37,10 @@ namespace TicketManagement.Web
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();
-            
-            services.AddControllersWithViews();
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddControllersWithViews()
+                .AddViewLocalization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +56,18 @@ namespace TicketManagement.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en"),
+                new CultureInfo("ru"),
+                new CultureInfo("be")
+            };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("ru"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

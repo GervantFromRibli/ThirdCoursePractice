@@ -17,5 +17,7 @@ namespace TicketManagement.BLL
         public Task CreateEventSeat(int eventAreaId, int row, int number, string state);
 
         public Task UpdateEventSeat(int id, int eventAreaId, int row, int number, string state);
+
+        public string VerificationOfEventSeat(int id, int? row, int? number, string state);
     }
 }

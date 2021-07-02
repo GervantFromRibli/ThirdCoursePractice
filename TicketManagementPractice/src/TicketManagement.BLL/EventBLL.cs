@@ -11,11 +11,15 @@ namespace TicketManagement.BLL
 {
     internal class EventBLL : IEventBLL
     {
-        protected IEventRepository Repository { get; set; }
+        protected IRepository<Event> Repository { get; set; }
+        protected IRepository<Area> AreaRepository { get; set; }
+        protected IRepository<Seat> SeatRepository { get; set; }
 
         public EventBLL(ApplicationContext context)
         {
             Repository = new EventRepository(context);
+            AreaRepository = new AreaRepository(context);
+            SeatRepository = new SeatRepository(context);
         }
 
         public async Task<Event> GetEvent(int id)
@@ -42,68 +46,63 @@ namespace TicketManagement.BLL
             }
             else
             {
-                Event @event = new Event(0, name, description, layoutId, startDate, endDate, imagePath);
-                if (!CheckEventIfPast(@event) && !CheckExistEvent(@event) && CheckSeatsInEvent(@event))
-                {
-                    int id = GetEvents().Select(elem => elem.Id).Max() + 1;
-                    await Repository.Create(new Event(id, name, description, layoutId, startDate, endDate, imagePath));
-                }
-                else
-                {
-                    if (CheckEventIfPast(@event))
-                    {
-                        throw new Exception("This event was in the past");
-                    }
-                    else if (CheckExistEvent(@event))
-                    {
-                        throw new Exception("There is an event with the same date");
-                    }
-                    else
-                    {
-                        throw new Exception("There is no seats for this event");
-                    }
-                }
+                int id = GetEvents().Select(elem => elem.Id).Max() + 1;
+                await Repository.Create(new Event(id, name, description, layoutId, startDate, endDate, imagePath));
             }
         }
 
         public async Task UpdateEvent(int id, string name, string description, int layoutId, DateTime startDate, DateTime endDate, string imagePath)
         {
             Event @event = new Event(id, name, description, layoutId, startDate, endDate, imagePath);
-            if (!CheckEventIfPast(@event) && !CheckExistEvent(@event) && CheckSeatsInEvent(@event))
+            await Repository.Update(@event);
+        }
+
+        public string VerificationOfEvent(int id, string name, string description, DateTime startDate, DateTime endDate)
+        {
+            var names = GetEvents().Where(elem => elem.Id != id).Select(elem => elem.Name);
+            var descrs = GetEvents().Where(elem => elem.Id != id).Select(elem => elem.Description);
+            var eventElem = GetEvent(id).Result;
+            var events = GetEvents().Where(elem => elem.Id != id);
+            var seatsCount = GetSeatsCount(eventElem.LayoutId);
+            if (description == null || name == null || startDate == null || endDate == null)
             {
-                await Repository.Update(@event);
+                return "NoValues";
             }
-            else
+            if (description.Length == 0 || description.Length > 100 || descrs.Contains(description))
             {
-                if (CheckEventIfPast(@event))
+                return "WrongDescr";
+            }
+            if (name.Length == 0 || name.Length > 20 || names.Contains(name))
+            {
+                return "WrongName";
+            }
+            if (startDate >= endDate || startDate <= DateTime.Now)
+            {
+                return "WrongData";
+            }
+            foreach (var elem in events)
+            {
+                if (elem.LayoutId == eventElem.LayoutId && !(eventElem.StartDate > elem.EndDate || eventElem.EndDate < elem.StartDate))
                 {
-                    throw new Exception("This event was in the past");
-                }
-                else if (CheckExistEvent(@event))
-                {
-                    throw new Exception("There is an event with the same date");
-                }
-                else
-                {
-                    throw new Exception("There is no seats for this event");
+                    return "ExistEvent";
                 }
             }
+            if (seatsCount == 0)
+            {
+                return "NoSeats";
+            }
+            if (startDate <= DateTime.UtcNow)
+            {
+                return "EventInPast";
+            }
+            return "Ok";
         }
 
-        private bool CheckEventIfPast(Event @event)
+        private int GetSeatsCount(int layoutId)
         {
-            DateTime date = DateTime.UtcNow;
-            return @event.StartDate <= date;
-        }
-
-        private bool CheckExistEvent(Event @event)
-        {
-            return Repository.CheckExistEvent(@event) > 0;
-        }
-
-        private bool CheckSeatsInEvent(Event @event)
-        {
-            return Repository.CheckSeatsInEvent(@event) > 0;
+            var areas = AreaRepository.GetAll().Where(elem => elem.LayoutId == layoutId).Select(elem => elem.Id).ToList();
+            var seats = SeatRepository.GetAll().Where(elem => areas.Contains(elem.AreaId)).ToList();
+            return seats.Count();
         }
     }
 }

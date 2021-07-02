@@ -59,15 +59,8 @@ namespace TicketManagement.DAL
         /// <inheritdoc cref="IRepository{T}.Update(T)"/>
         public async Task Update(EventSeat item)
         {
-            try
-            {
-                DbContext.Set<EventSeat>().Update(item);
-                await DbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            DbContext.Set<EventSeat>().Update(item);
+            await DbContext.SaveChangesAsync();
         }
     }
 }

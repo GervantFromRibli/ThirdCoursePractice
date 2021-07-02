@@ -307,6 +307,14 @@
         "runtime": {
           "TicketManagement.Web.dll": {}
         },
+        "resources": {
+          "en/TicketManagement.Web.resources.dll": {
+            "locale": "en"
+          },
+          "ru/TicketManagement.Web.resources.dll": {
+            "locale": "ru"
+          }
+        },
         "compile": {
           "TicketManagement.Web.dll": {}
         }

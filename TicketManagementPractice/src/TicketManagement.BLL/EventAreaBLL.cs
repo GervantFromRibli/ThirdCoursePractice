@@ -41,28 +41,46 @@ namespace TicketManagement.BLL
             {
                 await Repository.Create(new EventArea(1, eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));
             }
-            else if (!areas.Where(elem => elem.EventId == eventId).Select(elem => elem.Description).Contains(description))
+            else
             {
                 int id = areas.Select(elem => elem.Id).Max() + 1;
                 await Repository.Create(new EventArea(id, eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));
-            }
-            else
-            {
-                throw new Exception("There is an event area with the same description");
             }
         }
 
         public async Task UpdateEventArea(int id, int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price)
         {
-            List<EventArea> areas = GetEventAreas();
-            if (!areas.Where(elem => elem.EventId == eventId).Select(elem => elem.Description).Contains(description))
+            await Repository.Create(new EventArea(id, eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));
+        }
+
+        public string VerificationOfEventArea(int id, string description, int? startX, int? startY, int? endX, int? endY)
+        {
+            var areaElem = GetEventArea(id).Result;
+            var descrs = GetEventAreas().Where(elem => elem.EventId == areaElem.EventId && elem.Id != id).Select(elem => elem.Description);
+            if (description == null || startX == null || startY == null || endY == null || endX == null)
             {
-                await Repository.Create(new EventArea(id, eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));
+                return "NoValues";
             }
-            else
+            if (description.Length == 0 || description.Length > 100 || descrs.Contains(description))
             {
-                throw new Exception("There is an event area with the same description");
+                return "WrongDescr";
             }
+            if (startX >= endX || startY >= endY)
+            {
+                return "WrongCoordStep";
+            }
+            foreach (var area in GetEventAreas().Where(elem => elem.EventId == areaElem.EventId && elem.Id != id) ?? new List<EventArea>())
+            {
+                if (startX > area.StartCoordX && startX < area.EndCoordX && startY > area.StartCoordY && startY < endY)
+                {
+                    return "WrongStartCoord";
+                }
+                if (endX > area.StartCoordX && endX < area.EndCoordX && endY > area.StartCoordY && endY < area.EndCoordY)
+                {
+                    return "WrongEndCoord";
+                }
+            }
+            return "Ok";
         }
     }
 }
