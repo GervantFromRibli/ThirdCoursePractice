@@ -1,13 +1,12 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TicketManagement.Web</title>
+    <title>@Localizer["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/MyClass.css" />
@@ -19,7 +18,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TicketManagement.Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Title"]</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -28,30 +27,30 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.IsInRole("Менеджер событий")) { 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="Index" asp-controller="Event">События</a>
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="Event">@Localizer["Event"]</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="Index" asp-controller="EventArea">Зоны событий</a>
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="EventArea">@Localizer["EventArea"]</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="Index" asp-controller="EventSeat">Места событий</a>
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="EventSeat">@Localizer["EventSeat"]</a>
                             </li>
                         }
                         else if (User.IsInRole("Менеджер площадок")) {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="Index" asp-controller="Venue">Площадки</a>
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="Venue">@Localizer["Venue"]</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="Index" asp-controller="Layout">Слои</a>
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="Layout">@Localizer["Layout"]</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="Index" asp-controller="Area">Зоны</a>
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="Area">@Localizer["Area"]</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="Index" asp-controller="Seat">Места</a>
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="Seat">@Localizer["Seat"]</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="Index" asp-controller="UserManage">Пользователи</a>
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="UserManage">@Localizer["User"]</a>
                             </li>
                         }
                     </ul>
@@ -70,11 +69,6 @@
     <div id="modDialog" class="modal fade">
         <div id="dialogContent" class="modal-dialog"></div>
     </div>
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - TicketManagement.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script type="text/javascript">
         $(function () {
             $.ajaxSetup({ cache: false });

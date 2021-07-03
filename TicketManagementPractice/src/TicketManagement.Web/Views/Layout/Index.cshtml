@@ -1,6 +1,9 @@
-﻿@model TicketManagement.Web.Models.LayoutViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model TicketManagement.Web.Models.LayoutViewModel
 @{
-    ViewBag.Title = "Таблица слоев";
+    ViewBag.Title = Localizer["Title"];
+    Model.FilterVenueAddresses.Add(Localizer["All"].Value);
 }
 <script>
     function changeAddVisibility() {
@@ -26,11 +29,11 @@
     <H1 style="margin-top:15px;">@ViewBag.Title:</H1>
     <form method="get">
         <div>
-            <label class="control-label">Описание:&nbsp;</label>
+            <label class="control-label">@Localizer["Descr"]:&nbsp;</label>
             <input name="description" id="value1" class="form-control" />
         </div>
         <div>
-            <label class="control-label">Адрес площадки:&nbsp;</label>
+            <label class="control-label">@Localizer["VenueAddr"]:&nbsp;</label>
             <select name="venueAddress" id="value2" class="form-control">
                 @foreach (var elem in Model.FilterVenueAddresses)
                 {
@@ -40,10 +43,11 @@
         </div>
         <br />
         <div>
-            <input type="submit" value="Фильтр" class="btn btn-default" />
+            <input type="submit" value="@Localizer["Filter"]" class="btn btn-default" />
         </div>
     </form>
     <br />
+    @Localizer[(string)ViewData["Message"]]
     <div>
         <table border="1">
             <thead>
@@ -52,10 +56,10 @@
                         <a asp-action="Index" asp-route-type="Id">Id</a>
                     </td>
                     <td>
-                        <a asp-action="Index" asp-route-type="des">Описание</a>
+                        <a asp-action="Index" asp-route-type="des">@Localizer["Descr"]</a>
                     </td>
                     <td>
-                        <a asp-action="Index" asp-route-type="venAddrs">Адрес площадки</a>
+                        <a asp-action="Index" asp-route-type="venAddrs">@Localizer["VenueAddr"]</a>
                     </td>
                 </tr>
             </thead>
@@ -82,7 +86,7 @@
                asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
                class="btn" style="border:2px solid white;">
                 <i class="glyphicon glyphicon-chevron-left"></i>
-                Назад
+                @Localizer["Back"]
             </a>
         }
         @if (Model.PageViewModel.HasNextPage)
@@ -90,17 +94,16 @@
             <a asp-action="Index"
                asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
                class="btn" style="border:2px solid white;">
-                Вперед
+                @Localizer["Forward"]
                 <i class="glyphicon glyphicon-chevron-right"></i>
             </a>
         }
     </div>
     <br />
     <div>
-        <input type="submit" class="btn-default" value="Добавить запись" onclick="changeAddVisibility()" />
+        <input type="submit" class="btn-default" value="@Localizer["Add"]" onclick="changeAddVisibility()" />
     </div>
     <hr />
-    @ViewData["Message"]
     <div>
         <div id="AddLayout" style="display:none;">
             @{await Html.RenderPartialAsync("_AddLayout");}

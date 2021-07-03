@@ -41,28 +41,31 @@ namespace TicketManagement.BLL
             {
                 await Repository.Create(new Layout(1, venueId, description));
             }
-            else if (!layouts.Where(elem => elem.VenueId == venueId).Select(elem => elem.Description).Contains(description))
+            else
             {
                 int id = layouts.Select(elem => elem.Id).Max() + 1;
                 await Repository.Create(new Layout(id, venueId, description));
-            }
-            else
-            {
-                throw new Exception("There is a layout with the same description");
             }
         }
 
         public async Task UpdateLayout(int id, int venueId, string description)
         {
-            List<Layout> layouts = GetLayouts();
-            if (!layouts.Where(elem => elem.VenueId == venueId).Select(elem => elem.Description).Contains(description))
+            await Repository.Update(new Layout(id, venueId, description));
+        }
+
+        public string VerificationOfLayout(int id, string description)
+        {
+            var layout = GetLayout(id).Result;
+            var descrs = GetLayouts().Where(elem => elem.VenueId == layout.VenueId && elem.Id != id).Select(elem => elem.Description);
+            if (description == null)
             {
-                await Repository.Update(new Layout(id, venueId, description));
+                return "NoValue";
             }
-            else
+            if (description.Length == 0 || description.Length > 100 || descrs.Contains(description))
             {
-                throw new Exception("There is a layout with the same description");
+                return "WrongDescr";
             }
+            return "Ok";
         }
     }
 }

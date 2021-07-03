@@ -92,7 +92,7 @@ namespace TicketManagement.Web.Controllers
             var user = _userManager.FindByNameAsync(userName).Result;
             var seat = _eventSeatBLL.GetEventSeat(id).Result;
             var area = _eventAreaBLL.GetEventArea(seat.EventAreaId).Result;
-            if (confirm == "Нет")
+            if (confirm == "Нет" || confirm == "No")
             {
                 var eventElem = _eventBLL.GetEvents().Where(elem => elem.Id == area.EventId).First();
                 return await RemoveBooking(id, eventElem.Id);

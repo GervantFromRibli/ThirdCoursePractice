@@ -42,6 +42,24 @@ namespace TicketManagement.Web.Controllers
                     await _userManager.AddToRoleAsync(user, model.UserRole);
                     // установка куки
                     await _signInManager.SignInAsync(user, false);
+                    switch (model.Language)
+                    {
+                        case "Беларуская":
+                            {
+                                Response.Cookies.Append(".AspNetCore.Culture", "c=be|uic=be");
+                                break;
+                            }
+                        case "Русский":
+                            {
+                                Response.Cookies.Append(".AspNetCore.Culture", "c=ru|uic=ru");
+                                break;
+                            }
+                        default:
+                            {
+                                Response.Cookies.Append(".AspNetCore.Culture", "c=en|uic=en");
+                                break;
+                            }
+                    }
                     return Json(new { success = true, url = Url.Action("Index", "Home")});
                 }
                 else
@@ -71,6 +89,25 @@ namespace TicketManagement.Web.Controllers
                     await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
                 if (result.Succeeded)
                 {
+                    var lang = _userManager.FindByNameAsync(model.Email).Result.Language;
+                    switch (lang)
+                    {
+                        case "Беларуская":
+                            {
+                                Response.Cookies.Append(".AspNetCore.Culture", "c=be|uic=be");
+                                break;
+                            }
+                        case "Русский":
+                            {
+                                Response.Cookies.Append(".AspNetCore.Culture", "c=ru|uic=ru");
+                                break;
+                            }
+                        default:
+                            {
+                                Response.Cookies.Append(".AspNetCore.Culture", "c=en|uic=en");
+                                break;
+                            }
+                    }
                     return Json(new { success = true, url = Url.Action("Index", "Home") });
                 }
                 else

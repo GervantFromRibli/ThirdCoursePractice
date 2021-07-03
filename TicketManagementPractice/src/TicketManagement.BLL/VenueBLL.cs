@@ -40,28 +40,39 @@ namespace TicketManagement.BLL
             {
                 await Repository.Create(new Venue(1, descr, address, phone));
             }
-            else if (!venues.Select(elem => elem.Description).Contains(descr))
+            else
             {
                 int id = venues.Select(elem => elem.Id).Max() + 1;
                 await Repository.Create(new Venue(id, descr, address, phone));
-            }
-            else
-            {
-                throw new Exception("There is a venue with the same description");
             }
         }
 
         public async Task UpdateVenue(int id, string descr, string address, string phone)
         {
-            List<Venue> venues = GetVenues();
-            if (!venues.Select(elem => elem.Description).Contains(descr))
+            await Repository.Update(new Venue(id, descr, address, phone));
+        }
+
+        public string VerificationOfVenue(int id, string description, string address, string phone)
+        {
+            var addrs = GetVenues().Where(elem => elem.Id != id).Select(elem => elem.Address);
+            var descrs = GetVenues().Where(elem => elem.Id != id).Select(elem => elem.Description);
+            if (address == null || description == null || phone == null)
             {
-                await Repository.Update(new Venue(id, descr, address, phone));
+                return "NoValues";
             }
-            else
+            if (addrs.Contains(address) || address.Length == 0 || address.Length > 60)
             {
-                throw new Exception("There is a venue with the same description");
+                return "WrongAddr";
             }
+            if (description.Length == 0 || description.Length > 100 || descrs.Contains(description))
+            {
+                return "WrongDescr";
+            }
+            if (phone.Length < 5 || phone.Length > 15)
+            {
+                return "WrongPhone";
+            }
+            return "Ok";
         }
     }
 }

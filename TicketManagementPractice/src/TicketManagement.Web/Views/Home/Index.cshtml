@@ -1,6 +1,8 @@
-﻿@model TicketManagement.Web.Models.HomeViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model TicketManagement.Web.Models.HomeViewModel
 @{
-    ViewBag.Title = "Главная страница";
+    ViewBag.Title = Localizer["Title"];
     int countNumb = 0;
 }
 <script>
@@ -17,16 +19,16 @@
     <H1 style="margin-top:15px;">@ViewBag.Title:</H1>
     <form method="get">
         <div>
-            <label class="control-label">Название:&nbsp;</label>
+            <label class="control-label">@Localizer["Title"]:&nbsp;</label>
             <input name="name" id="value1" class="form-control" />
         </div>
         <div>
-            <label class="control-label">Описание:&nbsp;</label>
+            <label class="control-label">@Localizer["Descr"]:&nbsp;</label>
             <input name="description" id="value2" class="form-control" />
         </div>
         <br />
         <div>
-            <input type="submit" value="Фильтр" class="btn btn-default" />
+            <input type="submit" value="@Localizer["Filter"]" class="btn btn-default" />
         </div>
     </form>
     <br />
@@ -55,7 +57,7 @@
                asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
                class="btn" style="border:2px solid white;">
                 <i class="glyphicon glyphicon-chevron-left"></i>
-                Назад
+                @Localizer["Back"]
             </a>
         }
         @if (Model.PageViewModel.HasNextPage)
@@ -63,7 +65,7 @@
             <a asp-action="Index"
                asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
                class="btn" style="border:2px solid white;">
-                Вперед
+                @Localizer["Forward"]
                 <i class="glyphicon glyphicon-chevron-right"></i>
             </a>
         }

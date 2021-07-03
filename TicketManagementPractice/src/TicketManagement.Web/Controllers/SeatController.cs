@@ -27,10 +27,9 @@ namespace TicketManagement.Web.Controllers
             List<SeatCorrectViewModel> seatCorrectViewModels = GetModels();
 
             List<string> descriptions = _areaBLL.GetAreas().Select(elem => elem.Description).ToList();
-            descriptions.Add("Все");
             ViewBag.Message = message;
 
-            if (areaDescr != "Все")
+            if (areaDescr != "Все" && areaDescr != "All" && areaDescr != "Усе")
             {
                 seatCorrectViewModels = seatCorrectViewModels.Where(item => item.AreaDescription == areaDescr).ToList();
             }
@@ -83,7 +82,7 @@ namespace TicketManagement.Web.Controllers
         [HttpPost]
         public IActionResult UpdateSeat(SeatViewModel model, string action = null)
         {
-            if (action == "Удалить место")
+            if (action == "Удалить место" || action == "Delete seat" || action == "Выдаліць месца")
             {
                 return DeleteSeat(model.Id);
             }
@@ -103,26 +102,7 @@ namespace TicketManagement.Web.Controllers
 
         private string VerificationOfSeat(SeatViewModel model)
         {
-            var seats = model.Seats.Where(elem => elem.AreaDescription == model.AreaDescription).ToList() ?? new List<SeatCorrectViewModel>();
-            var area = _areaBLL.GetAreas().Where(elem => elem.Description == model.AreaDescription).First();
-            if (model.Row == null || model.Number == null)
-            {
-                return "Отсутствие значений в строках";
-            }
-            var rowCoord = area.StartCoordY + model.Row;
-            var numberCoord = area.StartCoordX + model.Number;
-            if (rowCoord > area.EndCoordY || numberCoord > area.EndCoordX)
-            {
-                return "Место находится за границами зоны";
-            }
-            foreach (var seat in seats)
-            {
-                if (model.Row == seat.Row && model.Number == seat.Number)
-                {
-                    return "Уже существует данное место";
-                }
-            }
-            return "Ok";
+            return _seatBLL.VerificationOfSeat(model.Id, model.AreaDescription, model.Row, model.Number);
         }
 
         private List<SeatCorrectViewModel> GetModels()

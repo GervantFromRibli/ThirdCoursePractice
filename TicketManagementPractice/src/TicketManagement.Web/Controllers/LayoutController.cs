@@ -27,14 +27,13 @@ namespace TicketManagement.Web.Controllers
             List<LayoutCorrectViewModel> layoutCorrectViewModels = GetModels();
 
             List<string> addresses = _venueBLL.GetVenues().Select(elem => elem.Address).ToList();
-            addresses.Add("Все");
             ViewBag.Message = message;
             if (description != null)
             {
                 layoutCorrectViewModels = layoutCorrectViewModels.Where(item => item.Description.Contains(description)).ToList();
             }
 
-            if (venueAddress != "Все")
+            if (venueAddress != "Все" && venueAddress != "All" && venueAddress != "Усе")
             {
                 layoutCorrectViewModels = layoutCorrectViewModels.Where(item => item.VenueAddress == venueAddress).ToList();
             }
@@ -87,7 +86,7 @@ namespace TicketManagement.Web.Controllers
         [HttpPost]
         public IActionResult UpdateLayout(LayoutViewModel model, string action = null)
         {
-            if (action == "Удалить слой")
+            if (action == "Удалить слой" || action == "Delete layout" || action == "Выдаліць пласт")
             {
                 return DeleteLayout(model.Id);
             }
@@ -108,16 +107,7 @@ namespace TicketManagement.Web.Controllers
 
         private string VerificationOfLayout(LayoutViewModel model)
         {
-            var descrs = model.Layouts.Select(elem => elem.Description);
-            if (model.Description == null)
-            {
-                return "Отсутствие значений в строках";
-            }
-            if (model.Description.Length == 0 || model.Description.Length > 100 || descrs.Contains(model.Description))
-            {
-                return "Неправильное описание";
-            }
-            return "Ok";
+            return _layoutBLL.VerificationOfLayout(model.Id, model.Description);
         }
 
         private List<LayoutCorrectViewModel> GetModels()

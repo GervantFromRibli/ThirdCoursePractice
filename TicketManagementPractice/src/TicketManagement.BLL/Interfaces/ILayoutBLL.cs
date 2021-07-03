@@ -17,5 +17,7 @@ namespace TicketManagement.BLL
         public Task CreateLayout(int venueId, string description);
 
         public Task UpdateLayout(int id, int venueId, string description);
+
+        public string VerificationOfLayout(int id, string description);
     }
 }

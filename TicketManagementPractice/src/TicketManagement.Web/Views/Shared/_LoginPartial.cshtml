@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
@@ -6,22 +8,22 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item nav-link">
-            <label>Здравствуйте, </label>
+            <label>@Localizer["Hello"], </label>
             <a asp-controller="Client" asp-action="Index">@User.Identity.Name</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-controller="Account" asp-action="Logout">
-                <button type="submit" class="nav-link btn btn-link" style="color:black;">Выход</button>
+                <button type="submit" class="nav-link btn btn-link" style="color:black;">@Localizer["Exit"]</button>
             </form>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link regItem" style="color:black;" asp-controller="Account" asp-action="Register">Регистрация</a>
+            <a class="nav-link regItem" style="color:black;" asp-controller="Account" asp-action="Register">@Localizer["Reg"]</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link logItem" style="color:black;" asp-controller="Account" asp-action="Login">Вход</a>
+            <a class="nav-link logItem" style="color:black;" asp-controller="Account" asp-action="Login">@Localizer["Enter"]</a>
         </li>
     }
 </ul>

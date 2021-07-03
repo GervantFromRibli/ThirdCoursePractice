@@ -1,16 +1,18 @@
-﻿@model CourseProject.Models.CreateUserViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model CourseProject.Models.CreateUserViewModel
 @{
-    ViewBag.Title = "Добавление пользователя";
+    ViewBag.Title = Localizer["Title"];
 }
 <h1 style="margin-top:15px;">@ViewBag.Title</h1>
 <form asp-action="Create" asp-controller="UserManage">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div>
-        <label asp-for="UserRole"></label><br />
+        <label class="control-label">@Localizer["UserRole"]</label>
         <select asp-for="UserRole">
-            <option>Базовый пользователь</option>
-            <option>Менеджер событий</option>
-            <option>Менеджер площадок</option>
+            <option value="Базовый пользователь">@Localizer["Basic"]</option>
+            <option value="Менеджер событий">@Localizer["EventMan"]</option>
+            <option value="Менеджер площадок">@Localizer["VenueMan"]</option>
         </select>
     </div>
     <div class="form-group">
@@ -18,19 +20,19 @@
         <input type="text" asp-for="Email" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Password" class="control-label">Пароль</label>
+        <label asp-for="Password" class="control-label">@Localizer["Password"]</label>
         <input type="password" asp-for="Password" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Surname" class="control-label">Фамилия</label>
+        <label asp-for="Surname" class="control-label">@Localizer["Surname"]</label>
         <input type="text" asp-for="Surname" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="FirstName" class="control-label">Имя</label>
+        <label asp-for="FirstName" class="control-label">@Localizer["Name"]</label>
         <input type="text" asp-for="FirstName" class="form-control" />
     </div>
     <div>
-        <label asp-for="Language"></label><br />
+        <label asp-for="Language">@Localizer["Lang"]</label><br />
         <select asp-for="Language" id="language">
             <option>Беларуская</option>
             <option>Русский</option>
@@ -38,6 +40,6 @@
         </select>
     </div>
     <div class="form-group">
-        <input type="submit" value="Добавить" class="btn btn-outline-secondary" />
+        <input type="submit" value="@Localizer["Add"]" class="btn btn-outline-secondary" />
     </div>
 </form>

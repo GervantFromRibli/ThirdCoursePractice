@@ -1,26 +1,28 @@
-﻿@model TicketManagement.Web.Models.BuyTicketViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model TicketManagement.Web.Models.BuyTicketViewModel
 @{
-    ViewBag.Title = "Покупка билета";
+    ViewBag.Title = Localizer["Title"];
 }
 <body>
     @using (Html.BeginForm("BuyNewTicket", "Purchase", FormMethod.Post))
     {
         <H1 style="margin-top:15px;">@ViewBag.Title:</H1>
         <div>
-            <p>Данные билета:</p>
+            <p>@Localizer["Data"]:</p>
             <br />
-            <p>Название события: @Model.EventName</p>
-            <p>Описание зоны: @Model.AreaDescription</p>
-            <p>Ряд: @Model.Row</p>
-            <p>Место: @Model.Number</p>
-            <p>Цена: @Model.Price</p>
+            <p>@Localizer["Name"]: @Model.EventName</p>
+            <p>@Localizer["AreaDescr"]: @Model.AreaDescription</p>
+            <p>@Localizer["Row"]: @Model.Row</p>
+            <p>@Localizer["Number"]: @Model.Number</p>
+            <p>@Localizer["Price"]: @Model.Price</p>
         </div>
-        <div>Вы хотите купить данный билет?</div>
+        <div>@Localizer["Quest"]</div>
         <input type="number" name="id" value="@Model.Id" style="display: none;"/>
         <input type="text" name="userName" value="@User.Identity.Name" style="display:none;" />
         <div>
-            <input type="submit" id="confirm" value="Да" name="confirm" />
-            <input type="submit" value="Нет" name="confirm">
+            <input type="submit" id="confirm" value="@Localizer["Yes"]" name="confirm" />
+            <input type="submit" value="@Localizer["No"]" name="confirm">
         </div>
         <br />
     }
@@ -28,8 +30,8 @@
 <script>
     window.onbeforeunload = function () {
         $.ajax({
-            url: '@Url.Action("BuyNewTicket", "Purchase", new { id = Model.Id, userName = User.Identity.Name, confirm = "Нет"})',
-            data: {"confirm": "Нет"}
+            url: '@Url.Action("BuyNewTicket", "Purchase", new { id = Model.Id, userName = User.Identity.Name, confirm = $"{@Localizer["No"]}" })',
+            data: {"confirm": "@Localizer["No"]"}
         }).done(function (res) { window.location.href = res });
     }
 </script>

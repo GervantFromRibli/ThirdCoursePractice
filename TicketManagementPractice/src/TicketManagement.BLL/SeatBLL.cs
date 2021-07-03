@@ -12,10 +12,12 @@ namespace TicketManagement.BLL
     internal class SeatBLL : ISeatBLL
     {
         protected IRepository<Seat> Repository { get; set; }
+        protected IRepository<Area> AreaRepository { get; set; }
 
         public SeatBLL(DbContext context)
         {
             Repository = new SeatRepository(context);
+            AreaRepository = new AreaRepository(context);
         }
 
         public async Task<Seat> GetSeat(int id)
@@ -42,30 +44,38 @@ namespace TicketManagement.BLL
             }
             else
             {
-                var seats = GetSeats().Where(elem => elem.AreaId == areaId && elem.Row == row && elem.Number == number);
-                if (!seats.Any())
-                {
-                    int id = Repository.GetAll().Select(elem => elem.Id).Max() + 1;
-                    await Repository.Create(new Seat(id, areaId, row, number));
-                }
-                else
-                {
-                    throw new Exception("There is a seat with the same coordinates");
-                }
+                int id = Repository.GetAll().Select(elem => elem.Id).Max() + 1;
+                await Repository.Create(new Seat(id, areaId, row, number));
             }
         }
 
         public async Task UpdateSeat(int id, int areaId, int row, int number)
         {
-            var seats = GetSeats().Where(elem => elem.AreaId == areaId && elem.Row == row && elem.Number == number);
-            if (!seats.Any())
+            await Repository.Update(new Seat(id, areaId, row, number));
+        }
+
+        public string VerificationOfSeat(int id, string areaDescr, int? row, int? number)
+        {
+            var area = AreaRepository.GetAll().Where(elem => elem.Description == areaDescr).First();
+            var seats = GetSeats().Where(elem => elem.AreaId == area.Id && elem.Id != id).ToList() ?? new List<Seat>();
+            if (row == null || number == null)
             {
-                await Repository.Update(new Seat(id, areaId, row, number));
+                return "NoValues";
             }
-            else
+            var rowCoord = area.StartCoordY + row;
+            var numberCoord = area.StartCoordX + number;
+            if (rowCoord > area.EndCoordY || numberCoord > area.EndCoordX || row < 1 || number < 1)
             {
-                throw new Exception("There is a seat with the same coordinates");
+                return "OutOfArea";
             }
+            foreach (var seat in seats)
+            {
+                if (row == seat.Row && number == seat.Number)
+                {
+                    return "ExistPlace";
+                }
+            }
+            return "Ok";
         }
     }
 }

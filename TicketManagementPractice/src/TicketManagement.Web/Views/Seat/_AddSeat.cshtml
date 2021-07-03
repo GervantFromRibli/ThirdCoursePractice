@@ -1,17 +1,19 @@
-﻿@model SeatViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model SeatViewModel
 @{ 
     List<string> areaDescrs = new List<string>();
     areaDescrs.AddRange(Model.FilterAreaDescriptions);
-    areaDescrs.Remove("Все");
+    areaDescrs.Remove(Localizer["All"].Value);
 }
 <h3 style="margin-top:15px;">
-    Добавление записи
+    @Localizer["Title"]
 </h3>
 <hr />
 @using (Html.BeginForm("AddSeat", "Seat", FormMethod.Post))
 {
     <div>
-        @Html.LabelFor(m => m.AreaDescription)
+        <label class="control-label">@Localizer["AreaDescr"]:&nbsp;</label>
         <div class="col-md-10">
             <select name="AreaDescription">
                 @foreach (var addr in areaDescrs)
@@ -22,17 +24,17 @@
         </div>
     </div>
     <div>
-        @Html.LabelFor(m => m.Row)
+        <label class="control-label">@Localizer["Row"]:&nbsp;</label>
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Row)
         </div>
     </div>
     <div>
-        @Html.LabelFor(m => m.Number)
+        <label class="control-label">@Localizer["Number"]:&nbsp;</label>
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Number)
         </div>
     </div>
     <br />
-    <input type="submit" class="btn btn-default" style="left:15px; position:relative" value="Добавить" />
+    <input type="submit" class="btn btn-default" style="left:15px; position:relative" value="@Localizer["Add"]" />
 }

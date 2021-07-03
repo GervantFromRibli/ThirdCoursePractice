@@ -1,6 +1,8 @@
-﻿@model CourseProject.Models.EditUserViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model CourseProject.Models.EditUserViewModel
 @{
-    ViewBag.Title = "Редактирование пользователя";
+    ViewBag.Title = Localizer["Title"];
 }
 <h1 style="margin-top:15px;">@ViewBag.Title</h1>
 <form asp-action="Edit" asp-controller="UserManage">
@@ -13,15 +15,15 @@
         <input type="text" asp-for="Email" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Surname" class="control-label">Фамилия</label>
+        <label asp-for="Surname" class="control-label">@Localizer["Surname"]</label>
         <input type="text" asp-for="Surname" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="FirstName" class="control-label">Имя</label>
+        <label asp-for="FirstName" class="control-label">@Localizer["Name"]</label>
         <input type="text" asp-for="FirstName" class="form-control" />
     </div>
     <div>
-        <label asp-for="Language"></label><br />
+        <label asp-for="Language">@Localizer["Lang"]</label><br />
         <select asp-for="Language" id="language">
             <option>Беларуская</option>
             <option>Русский</option>
@@ -29,6 +31,6 @@
         </select>
     </div>
     <div class="form-group">
-        <input type="submit" value="Сохранить" class="btn btn-outline-secondary" />
+        <input type="submit" value="@Localizer["Save"]" class="btn btn-outline-secondary" />
     </div>
 </form>

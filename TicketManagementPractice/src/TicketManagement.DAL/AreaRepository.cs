@@ -12,7 +12,7 @@ namespace TicketManagement.DAL
 {
     internal class AreaRepository : IRepository<Area>
     {
-        public AreaRepository(ApplicationContext context)
+        public AreaRepository(DbContext context)
         {
             if (context == null)
             {

@@ -17,5 +17,7 @@ namespace TicketManagement.BLL
         public Task CreateVenue(string descr, string address, string phone);
 
         public Task UpdateVenue(int id, string descr, string address, string phone);
+
+        public string VerificationOfVenue(int id, string description, string address, string phone);
     }
 }

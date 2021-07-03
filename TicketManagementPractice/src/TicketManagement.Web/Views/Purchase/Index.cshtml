@@ -1,20 +1,22 @@
-﻿@model TicketManagement.Web.Models.PurchaseViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model TicketManagement.Web.Models.PurchaseViewModel
 @{
-    ViewBag.Title = "Покупка билета";
+    ViewBag.Title = Localizer["Title"];
 }
 <body>
     <H1 style="margin-top:15px;">@ViewBag.Title:</H1>
     <div>
         <img src="~/images/@Model.Event.ImagePath" />
-        <span>Название: @Model.Event.Name</span>
-        <span>Описание: @Model.Event.Description</span>
-        <span>Начало события: @Model.Event.StartDate</span>
-        <span>Конец события: @Model.Event.EndDate</span>
+        <span>@Localizer["Name"]: @Model.Event.Name</span>
+        <span>@Localizer["Descr"]: @Model.Event.Description</span>
+        <span>@Localizer["Start"]: @Model.Event.StartDate</span>
+        <span>@Localizer["End"]: @Model.Event.EndDate</span>
     </div>
     <br />
     @if (ViewBag.Message!= null)
     {
-        <div>@ViewBag.Message</div>
+        <div>@Localizer[(string)ViewBag.Message]</div>
     }
     <br />
     <table border="1">

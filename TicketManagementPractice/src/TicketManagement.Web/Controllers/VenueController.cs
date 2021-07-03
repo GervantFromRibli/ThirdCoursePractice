@@ -83,7 +83,7 @@ namespace TicketManagement.Web.Controllers
         [HttpPost]
         public IActionResult UpdateVenue(VenueViewModel model, string action = null)
         {
-            if (action == "Удалить площадку")
+            if (action == "Удалить площадку" || action == "Delete venue" || action == "Выдаліць пляцоўку")
             {
                 return DeleteVenue(model.Id);
             }
@@ -103,25 +103,7 @@ namespace TicketManagement.Web.Controllers
 
         private string VerificationOfVenue(VenueViewModel model)
         {
-            var addrs = model.Venues.Select(elem => elem.Address);
-            var descrs = model.Venues.Select(elem => elem.Description);
-            if (model.Address == null || model.Description == null || model.Phone == null)
-            {
-                return "Отсутствие значений в строках";
-            }
-            if (addrs.Contains(model.Address) || model.Address.Length == 0 || model.Address.Length > 60)
-            {
-                return "Неправильный адрес";
-            }
-            if (model.Description.Length == 0 || model.Description.Length > 100 || descrs.Contains(model.Description))
-            {
-                return "Неправильное описание";
-            }
-            if (model.Phone.Length < 5 || model.Phone.Length > 15)
-            {
-                return "Неправильный ввод телефона";
-            }
-            return "Ok";
+            return _venueBLL.VerificationOfVenue(model.Id, model.Description, model.Address, model.Phone);
         }
     }
 }

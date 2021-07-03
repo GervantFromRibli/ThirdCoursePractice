@@ -308,6 +308,9 @@
           "TicketManagement.Web.dll": {}
         },
         "resources": {
+          "be/TicketManagement.Web.resources.dll": {
+            "locale": "be"
+          },
           "en/TicketManagement.Web.resources.dll": {
             "locale": "en"
           },

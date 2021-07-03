@@ -68,6 +68,24 @@ namespace TicketManagement.Web.Controllers
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
+                        switch (view.Language)
+                        {
+                            case "Беларуская":
+                                {
+                                    Response.Cookies.Append(".AspNetCore.Culture", "c=be|uic=be");
+                                    break;
+                                }
+                            case "Русский":
+                                {
+                                    Response.Cookies.Append(".AspNetCore.Culture", "c=ru|uic=ru");
+                                    break;
+                                }
+                            default:
+                                {
+                                    Response.Cookies.Append(".AspNetCore.Culture", "c=en|uic=en");
+                                    break;
+                                }
+                        }
                         return RedirectToAction("Index");
                     }
                     else
