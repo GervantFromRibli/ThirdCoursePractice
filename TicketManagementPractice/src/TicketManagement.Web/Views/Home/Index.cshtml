@@ -5,6 +5,34 @@
     ViewBag.Title = Localizer["Title"];
     int countNumb = 0;
 }
+<style>
+    .image p{
+        position:relative;
+        opacity:0;
+        color:white;
+        top:110px;
+        left:-200px;
+    }
+    .image img{
+        position:relative;
+        width:200px;
+        height:200px;
+        transition-property:img, p;
+    }
+    .image:hover img {
+        transition:0.5s;
+        filter: blur(10px);
+    }
+    .image{
+        width:min-content;
+        height:min-content;
+    }
+    .image:hover > p {
+        opacity: 1;
+        transition: 0.3s;
+        color: white;
+    }
+</style>
 <script>
     function SetSession() {
         sessionStorage.setItem("name", $("#value1").val());
@@ -19,7 +47,7 @@
     <H1 style="margin-top:15px;">@ViewBag.Title:</H1>
     <form method="get">
         <div>
-            <label class="control-label">@Localizer["Title"]:&nbsp;</label>
+            <label class="control-label">@Localizer["Name"]:&nbsp;</label>
             <input name="name" id="value1" class="form-control" />
         </div>
         <div>
@@ -37,7 +65,8 @@
         {
             if (User.IsInRole("Базовый пользователь"))
             {
-                <a asp-action="Index" asp-controller="Purchase" asp-route-id="@elem.Id"><div class="block_a"><img src="~/images/@elem.ImageUrl" /><span class="block_a"><br />@elem.Name<br />@elem.Description<br />@elem.Count</span></div></a>
+                <span class="image"><a asp-action="Index" asp-controller="Purchase" asp-route-id="@elem.Id"><img src="~/images/@elem.ImageUrl" /></a><p class="block_a"><br />@elem.Name<br />@elem.Description<br />@elem.Count</p>
+            </span>
             }
             else
             {
