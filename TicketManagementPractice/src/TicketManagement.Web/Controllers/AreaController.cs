@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TicketManagement.BLL;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -27,7 +27,7 @@ namespace TicketManagement.Web.Controllers
             List<AreaCorrectViewModel> areaCorrectViewModels = GetModels();
 
             List<string> descriptions = _layoutBLL.GetLayouts().Select(elem => elem.Description).ToList();
-            ViewBag.Message = message;
+            ViewBag.Message = message ?? "";
             if (description != null)
             {
                 areaCorrectViewModels = areaCorrectViewModels.Where(item => item.Description.Contains(description)).ToList();
@@ -64,7 +64,7 @@ namespace TicketManagement.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddArea(AreaViewModel model)
+        public async Task<IActionResult> AddArea(AreaViewModel model)
         {
             model.Areas = GetModels();
             var message = VerificationOfArea(model);
@@ -75,24 +75,24 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _areaBLL.CreateArea(_layoutBLL.GetLayouts().Where(elem => elem.Description == model.LayoutDescription).First().Id, model.Description, (int)model.StartCoordX, 
+                await _areaBLL.CreateArea(_layoutBLL.GetLayouts().Where(elem => elem.Description == model.LayoutDescription).First().Id, model.Description, (int)model.StartCoordX, 
                     (int)model.StartCoordY, (int)model.EndCoordX, (int)model.EndCoordY);
                 return RedirectToAction("Index");
             }
         }
 
-        public IActionResult DeleteArea(int id)
+        public async Task<IActionResult> DeleteArea(int id)
         {
-            _areaBLL.DeleteArea(id);
+            await _areaBLL.DeleteArea(id);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult UpdateArea(AreaViewModel model, string action = null)
+        public async Task<IActionResult> UpdateArea(AreaViewModel model, string action = null)
         {
             if (action == "Удалить зону" || action == "Delete area" || action == "Выдаліць зону")
             {
-                return DeleteArea(model.Id);
+                return await DeleteArea(model.Id);
             }
             model.Areas = GetModels();
             var message = VerificationOfArea(model);
@@ -103,7 +103,7 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _areaBLL.UpdateArea(model.Id, _layoutBLL.GetLayouts().Where(elem => elem.Description == model.LayoutDescription).First().Id, model.Description, (int)model.StartCoordX,
+                await _areaBLL.UpdateArea(model.Id, _layoutBLL.GetLayouts().Where(elem => elem.Description == model.LayoutDescription).First().Id, model.Description, (int)model.StartCoordX,
                     (int)model.StartCoordY, (int)model.EndCoordX, (int)model.EndCoordY);
                 return RedirectToAction("Index");
             }
@@ -111,7 +111,8 @@ namespace TicketManagement.Web.Controllers
 
         private string VerificationOfArea(AreaViewModel model)
         {
-            return _areaBLL.VerificationOfArea(model.Id, model.Description, model.StartCoordX, model.StartCoordY, model.EndCoordX, model.EndCoordY);
+            return _areaBLL.VerificationOfArea(model.Id, model.Description, model.StartCoordX, model.StartCoordY, model.EndCoordX, model.EndCoordY,
+                _layoutBLL.GetLayouts().First(elem => elem.Description == model.LayoutDescription).Id);
         }
 
         private List<AreaCorrectViewModel> GetModels()

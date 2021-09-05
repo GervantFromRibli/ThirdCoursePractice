@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using TicketManagement.Models;
 
@@ -18,6 +17,6 @@ namespace TicketManagement.BLL
 
         public Task UpdateEvent(int id, string name, string description, int layoutId, DateTime startDate, DateTime endDate, string imagePath);
 
-        public string VerificationOfEvent(int id, string name, string description, DateTime startDate, DateTime endDate);
+        public string VerificationOfEvent(int id, string name, string description, DateTime startDate, DateTime endDate, int layoutId);
     }
 }

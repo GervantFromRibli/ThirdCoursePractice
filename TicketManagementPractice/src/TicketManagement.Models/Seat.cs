@@ -6,6 +6,13 @@
     /// </summary>
     public class Seat
     {
+        public Seat() { }
+        public Seat(int areaId, int row, int number)
+        {
+            AreaId = areaId;
+            Row = row;
+            Number = number;
+        }
         public Seat(int id, int areaId, int row, int number)
         {
             Id = id;

@@ -28,10 +28,15 @@
     }
 </body>
 <script>
+    function a() {
+        window.onbeforeunload = null
+    }
     window.onbeforeunload = function () {
-        $.ajax({
-            url: '@Url.Action("BuyNewTicket", "Purchase", new { id = Model.Id, userName = User.Identity.Name, confirm = $"{@Localizer["No"]}" })',
-            data: {"confirm": "@Localizer["No"]"}
-        }).done(function (res) { window.location.href = res });
+        if (!$("#confirm").click()) {
+            $.ajax({
+                url: '@Url.Action("BuyNewTicket", "Purchase", new { id = Model.Id, userName = User.Identity.Name, confirm = $"{@Localizer["No"]}" })',
+                data: {"confirm": "@Localizer["No"]"}
+            }).done(function (res) { window.location.href = res });
+        }
     }
 </script>

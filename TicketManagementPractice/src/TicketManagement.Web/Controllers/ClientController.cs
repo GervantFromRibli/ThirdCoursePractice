@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TicketManagement.Web.Models;
 using TicketManagement.BLL;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 using TicketManagement.DAL;
 
 namespace TicketManagement.Web.Controllers

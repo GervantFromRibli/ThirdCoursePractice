@@ -1,5 +1,3 @@
-using System;
-
 namespace TicketManagement.Web.Models
 {
     public class ErrorViewModel

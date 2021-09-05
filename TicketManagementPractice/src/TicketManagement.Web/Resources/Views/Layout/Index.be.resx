@@ -129,6 +129,9 @@
   <data name="Descr" xml:space="preserve">
     <value>Апісанне</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Фiльтр</value>
+  </data>
   <data name="Forward" xml:space="preserve">
     <value>Уперад</value>
   </data>

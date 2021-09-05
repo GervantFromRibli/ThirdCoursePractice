@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TicketManagement.BLL;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -27,7 +27,7 @@ namespace TicketManagement.Web.Controllers
             List<LayoutCorrectViewModel> layoutCorrectViewModels = GetModels();
 
             List<string> addresses = _venueBLL.GetVenues().Select(elem => elem.Address).ToList();
-            ViewBag.Message = message;
+            ViewBag.Message = message ?? "";
             if (description != null)
             {
                 layoutCorrectViewModels = layoutCorrectViewModels.Where(item => item.Description.Contains(description)).ToList();
@@ -60,7 +60,7 @@ namespace TicketManagement.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddLayout(LayoutViewModel model)
+        public async Task<IActionResult> AddLayout(LayoutViewModel model)
         {
             model.Layouts = GetModels();
             model.Ids = model.Layouts.Select(item => item.Id).ToList();
@@ -72,23 +72,23 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _layoutBLL.CreateLayout(_venueBLL.GetVenues().Where(elem => elem.Address == model.VenueAddress).First().Id, model.Description);
+                await _layoutBLL.CreateLayout(_venueBLL.GetVenues().Where(elem => elem.Address == model.VenueAddress).First().Id, model.Description);
                 return RedirectToAction("Index");
             }
         }
 
-        public IActionResult DeleteLayout(int id)
+        public async Task<IActionResult> DeleteLayout(int id)
         {
-            _layoutBLL.DeleteLayout(id);
+            await _layoutBLL.DeleteLayout(id);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult UpdateLayout(LayoutViewModel model, string action = null)
+        public async Task<IActionResult> UpdateLayout(LayoutViewModel model, string action = null)
         {
             if (action == "Удалить слой" || action == "Delete layout" || action == "Выдаліць пласт")
             {
-                return DeleteLayout(model.Id);
+                return await DeleteLayout(model.Id);
             }
             model.Layouts = GetModels();
             model.Ids = model.Layouts.Select(item => item.Id).ToList();
@@ -100,14 +100,14 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _layoutBLL.UpdateLayout(model.Id, _venueBLL.GetVenues().Where(elem => elem.Address == model.VenueAddress).First().Id, model.Description);
+                await _layoutBLL.UpdateLayout(model.Id, _venueBLL.GetVenues().Where(elem => elem.Address == model.VenueAddress).First().Id, model.Description);
                 return RedirectToAction("Index");
             }
         }
 
         private string VerificationOfLayout(LayoutViewModel model)
         {
-            return _layoutBLL.VerificationOfLayout(model.Id, model.Description);
+            return _layoutBLL.VerificationOfLayout(model.Id, model.Description, _venueBLL.GetVenues().First(elem => elem.Address == model.VenueAddress).Id);
         }
 
         private List<LayoutCorrectViewModel> GetModels()

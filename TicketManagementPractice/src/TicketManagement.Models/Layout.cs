@@ -6,6 +6,12 @@
     /// </summary>
     public class Layout
     {
+        public Layout() { }
+        public Layout(int venueId, string description)
+        {
+            VenueId = venueId;
+            Description = description;
+        }
         public Layout(int id, int venueId, string description)
         {
             Id = id;

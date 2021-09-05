@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TicketManagement.BLL;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -27,7 +27,7 @@ namespace TicketManagement.Web.Controllers
             List<EventSeatCorrectViewModel> eventSeatCorrectViewModels = GetModels();
 
             List<string> descriptions = _eventAreaBLL.GetEventAreas().Select(elem => elem.Description).ToList();
-            ViewBag.Message = message;
+            ViewBag.Message = message ?? "";
 
             if (eventAreaDescr != "Все" && eventAreaDescr != "All" && eventAreaDescr != "Усе")
             {
@@ -58,7 +58,7 @@ namespace TicketManagement.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddEventSeat(EventSeatViewModel model)
+        public async Task<IActionResult> AddEventSeat(EventSeatViewModel model)
         {
             model.EventSeats = GetModels();
             var message = VerificationOfEventSeat(model);
@@ -69,23 +69,23 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _eventSeatBLL.CreateEventSeat(_eventAreaBLL.GetEventAreas().Where(elem => elem.Description == model.EventAreaDescription).First().Id, (int)model.Row, (int)model.Number, model.State);
+                await _eventSeatBLL.CreateEventSeat(_eventAreaBLL.GetEventAreas().Where(elem => elem.Description == model.EventAreaDescription).First().Id, (int)model.Row, (int)model.Number, model.State);
                 return RedirectToAction("Index");
             }
         }
 
-        public IActionResult DeleteEventSeat(int id)
+        public async Task<IActionResult> DeleteEventSeat(int id)
         {
-            _eventSeatBLL.DeleteEventSeat(id);
+            await _eventSeatBLL.DeleteEventSeat(id);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult UpdateEventSeat(EventSeatViewModel model, string action = null)
+        public async Task<IActionResult> UpdateEventSeat(EventSeatViewModel model, string action = null)
         {
             if (action == "Удалить место события" || action == "Delete event seat" || action == "Выдаліць месца падзеі")
             {
-                return DeleteEventSeat(model.Id);
+                return await DeleteEventSeat(model.Id);
             }
             model.EventSeats = GetModels();
             var message = VerificationOfEventSeat(model);
@@ -96,14 +96,14 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _eventSeatBLL.UpdateEventSeat(model.Id, _eventAreaBLL.GetEventAreas().Where(elem => elem.Description == model.EventAreaDescription).First().Id, (int)model.Row, (int)model.Number, model.State);
+                await _eventSeatBLL.UpdateEventSeat(model.Id, _eventAreaBLL.GetEventAreas().Where(elem => elem.Description == model.EventAreaDescription).First().Id, (int)model.Row, (int)model.Number, model.State);
                 return RedirectToAction("Index");
             }
         }
 
         private string VerificationOfEventSeat(EventSeatViewModel model)
         {
-            return _eventSeatBLL.VerificationOfEventSeat(model.Id, model.Row, model.Number, model.State);
+            return _eventSeatBLL.VerificationOfEventSeat(model.Id, model.Row, model.Number, model.State, _eventAreaBLL.GetEventAreas().First(elem => elem.Description == model.EventAreaDescription).Id);
         }
 
         private List<EventSeatCorrectViewModel> GetModels()

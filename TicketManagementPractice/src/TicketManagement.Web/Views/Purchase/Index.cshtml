@@ -7,43 +7,47 @@
 <body>
     <H1 style="margin-top:15px;">@ViewBag.Title:</H1>
     <div>
-        <img src="~/images/@Model.Event.ImagePath" />
-        <span>@Localizer["Name"]: @Model.Event.Name</span>
-        <span>@Localizer["Descr"]: @Model.Event.Description</span>
-        <span>@Localizer["Start"]: @Model.Event.StartDate</span>
-        <span>@Localizer["End"]: @Model.Event.EndDate</span>
+        <img src="~/images/@Model.Event.ImagePath" style="float:left; margin-right:10px;"/>
+        <div>
+            <p>@Localizer["Name"]: @Model.Event.Name</p>
+            <p>@Localizer["Descr"]: @Model.Event.Description</p>
+            <p>@Localizer["Start"]: @Model.Event.StartDate</p>
+            <p>@Localizer["End"]: @Model.Event.EndDate</p>
+        </div>
     </div>
-    <br />
-    @if (ViewBag.Message!= null)
-    {
-        <div>@Localizer[(string)ViewBag.Message]</div>
-    }
-    <br />
-    <table border="1">
-        @for (int i = Model.RowCount; i >= 1; i--) 
-        { 
-            <tr>
-                @for (int j = 1; j <= Model.NumbCount; j++)
-                {
-                    @if (Model.PurchaseSeatViewModels.Where(item => item.RowIndex == i && item.NumbIndex == j).Any())
+    <div style="top:45%; position:absolute;">
+        <br />
+        @if (ViewBag.Message != null)
+        {
+            <div>@Localizer[(string)ViewBag.Message]</div>
+        }
+        <br />
+        <table border="1">
+            @for (int i = Model.RowCount; i >= 1; i--)
+            {
+                <tr>
+                    @for (int j = 1; j <= Model.NumbCount; j++)
                     {
-                        var elem = Model.PurchaseSeatViewModels.Where(item => item.RowIndex == i && item.NumbIndex == j).First();
-                        string color = elem.State == "Свободно" ? "green" : "gray";
-                        if (color == "green")
+                        @if (Model.PurchaseSeatViewModels.Where(item => item.RowIndex == i && item.NumbIndex == j).Any())
                         {
-                            <td style="background-color:green; width:20px; height:20px;"><a style="border: hidden; background-color: green; width: 20px; height: 20px;" asp-action="BuyTicket" asp-route-seatId="@elem.Id"><div style="height:100%; width:100%;"></div></a></td>
+                            var elem = Model.PurchaseSeatViewModels.Where(item => item.RowIndex == i && item.NumbIndex == j).First();
+                            string color = elem.State == "Свободно" ? "green" : "gray";
+                            if (color == "green")
+                            {
+                                <td style="background-color:green; width:20px; height:20px;"><a style="border: hidden; background-color: green; width: 20px; height: 20px;" asp-action="BuyTicket" asp-route-seatId="@elem.Id"><div style="height:100%; width:100%;"></div></a></td>
+                            }
+                            else
+                            {
+                                <td style="background-color: gray; width: 20px; height: 20px;"></td>
+                            }
                         }
                         else
                         {
-                            <td style="background-color: gray; width: 20px; height: 20px;"></td>
+                            <td style="background-color: white; width: 20px; height: 20px;"></td>
                         }
                     }
-                    else
-                    {
-                        <td style="background-color: white; width: 20px; height: 20px;"></td>
-                    }
-                }
-            </tr>
-        }
-    </table>
+                </tr>
+            }
+        </table>
+    </div>
 </body>

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TicketManagement.Models;
 
@@ -18,6 +16,6 @@ namespace TicketManagement.BLL
 
         public Task UpdateEventArea(int id, int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price);
 
-        public string VerificationOfEventArea(int id, string description, int? startX, int? startY, int? endX, int? endY);
+        public string VerificationOfEventArea(int id, string description, int? startX, int? startY, int? endX, int? endY, int eventId);
     }
 }

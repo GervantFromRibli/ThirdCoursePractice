@@ -6,6 +6,14 @@
     /// </summary>
     public class EventSeat
     {
+        public EventSeat() { }
+        public EventSeat(int eventAreaId, int row, int number, string state)
+        {
+            EventAreaId = eventAreaId;
+            Row = row;
+            Number = number;
+            State = state;
+        }
         public EventSeat(int id, int eventAreaId, int row, int number, string state)
         {
             Id = id;

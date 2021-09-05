@@ -35,16 +35,7 @@ namespace TicketManagement.BLL
 
         public async Task CreateVenue(string descr, string address, string phone)
         {
-            List<Venue> venues = GetVenues();
-            if (venues.Count() == 0)
-            {
-                await Repository.Create(new Venue(1, descr, address, phone));
-            }
-            else
-            {
-                int id = venues.Select(elem => elem.Id).Max() + 1;
-                await Repository.Create(new Venue(id, descr, address, phone));
-            }
+            await Repository.Create(new Venue(descr, address, phone));
         }
 
         public async Task UpdateVenue(int id, string descr, string address, string phone)

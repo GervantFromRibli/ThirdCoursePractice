@@ -6,6 +6,19 @@
     /// </summary>
     public class EventArea
     {
+        public EventArea() { }
+
+        public EventArea(int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price)
+        {
+            EventId = eventId;
+            Description = description;
+            StartCoordX = startCoordX;
+            StartCoordY = startCoordY;
+            EndCoordX = endCoordX;
+            EndCoordY = endCoordY;
+            Price = price;
+        }
+
         public EventArea(int id, int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price)
         {
             Id = id;

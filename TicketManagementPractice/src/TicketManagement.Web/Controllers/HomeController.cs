@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using TicketManagement.BLL;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -30,7 +29,7 @@ namespace TicketManagement.Web.Controllers
         [HttpGet]
         public IActionResult Index(int page = 1, string name = null, string description = null)
         {
-            int pageSize = 16;
+            int pageSize = 15;
             List<EventShowViewModel> events = GetModels();
             if (description != null)
             {

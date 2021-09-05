@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TicketManagement.BLL;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -27,7 +27,7 @@ namespace TicketManagement.Web.Controllers
             List<SeatCorrectViewModel> seatCorrectViewModels = GetModels();
 
             List<string> descriptions = _areaBLL.GetAreas().Select(elem => elem.Description).ToList();
-            ViewBag.Message = message;
+            ViewBag.Message = message ?? "";
 
             if (areaDescr != "Все" && areaDescr != "All" && areaDescr != "Усе")
             {
@@ -57,7 +57,7 @@ namespace TicketManagement.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddSeat(SeatViewModel model)
+        public async Task<IActionResult> AddSeat(SeatViewModel model)
         {
             model.Seats = GetModels();
             var message = VerificationOfSeat(model);
@@ -68,23 +68,23 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _seatBLL.CreateSeat(_areaBLL.GetAreas().Where(elem => elem.Description == model.AreaDescription).First().Id, (int)model.Row, (int)model.Number);
+                await _seatBLL.CreateSeat(_areaBLL.GetAreas().Where(elem => elem.Description == model.AreaDescription).First().Id, (int)model.Row, (int)model.Number);
                 return RedirectToAction("Index");
             }
         }
 
-        public IActionResult DeleteSeat(int id)
+        public async Task<IActionResult> DeleteSeat(int id)
         {
-            _seatBLL.DeleteSeat(id);
+            await _seatBLL.DeleteSeat(id);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult UpdateSeat(SeatViewModel model, string action = null)
+        public async Task<IActionResult> UpdateSeat(SeatViewModel model, string action = null)
         {
             if (action == "Удалить место" || action == "Delete seat" || action == "Выдаліць месца")
             {
-                return DeleteSeat(model.Id);
+                return await DeleteSeat(model.Id);
             }
             model.Seats = GetModels();
             var message = VerificationOfSeat(model);
@@ -95,7 +95,7 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _seatBLL.UpdateSeat(model.Id, _areaBLL.GetAreas().Where(elem => elem.Description == model.AreaDescription).First().Id, (int)model.Row, (int)model.Number);
+                await _seatBLL.UpdateSeat(model.Id, _areaBLL.GetAreas().Where(elem => elem.Description == model.AreaDescription).First().Id, (int)model.Row, (int)model.Number);
                 return RedirectToAction("Index");
             }
         }

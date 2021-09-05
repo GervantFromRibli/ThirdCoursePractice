@@ -6,6 +6,18 @@
     /// </summary>
     public class Area
     {
+        public Area() { }
+
+        public Area(int layoutId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY)
+        {
+            LayoutId = layoutId;
+            Description = description;
+            StartCoordX = startCoordX;
+            StartCoordY = startCoordY;
+            EndCoordX = endCoordX;
+            EndCoordY = endCoordY;
+        }
+
         public Area(int id, int layoutId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY)
         {
             Id = id;

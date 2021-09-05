@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TicketManagement.BLL;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -27,7 +27,7 @@ namespace TicketManagement.Web.Controllers
             List<EventCorrectViewModel> eventCorrectViewModels = GetModels();
 
             List<string> descriptions = _layoutBLL.GetLayouts().Select(elem => elem.Description).ToList();
-            ViewBag.Message = message;
+            ViewBag.Message = message ?? "";
             if (name != null)
             {
                 eventCorrectViewModels = eventCorrectViewModels.Where(item => item.Name.Contains(name)).ToList();
@@ -64,7 +64,7 @@ namespace TicketManagement.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddEvent(EventViewModel model)
+        public async Task<IActionResult> AddEvent(EventViewModel model)
         {
             model.Events = GetModels();
             model.Ids = model.Events.Select(item => item.Id).ToList();
@@ -76,23 +76,23 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _eventBLL.CreateEvent(model.Name, model.Description, _layoutBLL.GetLayouts().Where(elem => elem.Description == model.LayoutDescription).First().Id, model.StartDate, model.EndDate, model.ImagePath);
+                await _eventBLL.CreateEvent(model.Name, model.Description, _layoutBLL.GetLayouts().Where(elem => elem.Description == model.LayoutDescription).First().Id, model.StartDate, model.EndDate, model.ImagePath);
                 return RedirectToAction("Index");
             }
         }
 
-        public IActionResult DeleteEvent(int id)
+        public async Task<IActionResult> DeleteEvent(int id)
         {
-            _eventBLL.DeleteEvent(id);
+            await _eventBLL.DeleteEvent(id);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult UpdateEvent(EventViewModel model, string action = null)
+        public async Task<IActionResult> UpdateEvent(EventViewModel model, string action = null)
         {
             if (action == "Удалить событие" || action == "Delete event" || action == "Выдаліць падзею")
             {
-                return DeleteEvent(model.Id);
+                return await DeleteEvent(model.Id);
             }
             model.Events = GetModels();
             model.Ids = model.Events.Select(item => item.Id).ToList();
@@ -104,14 +104,14 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _eventBLL.UpdateEvent(model.Id, model.Name, model.Description, _layoutBLL.GetLayouts().Where(elem => elem.Description == model.LayoutDescription).First().Id, model.StartDate, model.EndDate, model.ImagePath);
+                await _eventBLL.UpdateEvent(model.Id, model.Name, model.Description, _layoutBLL.GetLayouts().Where(elem => elem.Description == model.LayoutDescription).First().Id, model.StartDate, model.EndDate, model.ImagePath);
                 return RedirectToAction("Index");
             }
         }
 
         private string VerificationOfEvent(EventViewModel model)
         {
-            return _eventBLL.VerificationOfEvent(model.Id, model.Name, model.Description, model.StartDate, model.EndDate);
+            return _eventBLL.VerificationOfEvent(model.Id, model.Name, model.Description, model.StartDate, model.EndDate, _layoutBLL.GetLayouts().First(elem => elem.Description == model.LayoutDescription).Id);
         }
 
         private List<EventCorrectViewModel> GetModels()

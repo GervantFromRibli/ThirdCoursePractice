@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -38,15 +36,7 @@ namespace TicketManagement.BLL
 
         public async Task CreateEventSeat(int eventAreaId, int row, int number, string state)
         {
-            if (GetEventSeats().Count() == 0)
-            {
-                await Repository.Create(new EventSeat(1, eventAreaId, row, number, state));
-            }
-            else
-            {
-                int id = Repository.GetAll().Select(elem => elem.Id).Max() + 1;
-                await Repository.Create(new EventSeat(id, eventAreaId, row, number, state));
-            }
+            await Repository.Create(new EventSeat(eventAreaId, row, number, state));
         }
 
         public async Task UpdateEventSeat(int id, int eventAreaId, int row, int number, string state)
@@ -54,11 +44,10 @@ namespace TicketManagement.BLL
             await Repository.Update(new EventSeat(id, eventAreaId, row, number, state));
         }
 
-        public string VerificationOfEventSeat(int id, int? row, int? number, string state)
+        public string VerificationOfEventSeat(int id, int? row, int? number, string state, int eventAreaId)
         {
-            var seatElem = GetEventSeat(id).Result;
-            var seats = GetEventSeats().Where(elem => elem.EventAreaId == seatElem.EventAreaId && elem.Id != id).ToList();
-            var area = AreaRepository.GetById(seatElem.EventAreaId).Result;
+            var seats = GetEventSeats().Where(elem => elem.EventAreaId == eventAreaId && elem.Id != id).ToList();
+            var area = AreaRepository.GetById(eventAreaId).Result;
             if (row == null || number == null || state == null)
             {
                 return "NoValues";

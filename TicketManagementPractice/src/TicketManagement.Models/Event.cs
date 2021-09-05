@@ -8,6 +8,16 @@ namespace TicketManagement.Models
     /// </summary>
     public class Event
     {
+        public Event() { }
+        public Event(string name, string description, int layoutId, DateTime startDate, DateTime endDate, string imagePath)
+        {
+            Name = name;
+            Description = description;
+            LayoutId = layoutId;
+            StartDate = startDate;
+            EndDate = endDate;
+            ImagePath = imagePath;
+        }
         public Event(int id, string name, string description, int layoutId, DateTime startDate, DateTime endDate, string imagePath)
         {
             Id = id;

@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -38,15 +36,7 @@ namespace TicketManagement.BLL
 
         public async Task CreateSeat(int areaId, int row, int number)
         {
-            if (Repository.GetAll().Count() == 0)
-            {
-                await Repository.Create(new Seat(1, areaId, row, number));
-            }
-            else
-            {
-                int id = Repository.GetAll().Select(elem => elem.Id).Max() + 1;
-                await Repository.Create(new Seat(id, areaId, row, number));
-            }
+            await Repository.Create(new Seat(areaId, row, number));
         }
 
         public async Task UpdateSeat(int id, int areaId, int row, int number)

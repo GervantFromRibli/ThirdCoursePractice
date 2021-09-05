@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TicketManagement.BLL;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -27,7 +27,7 @@ namespace TicketManagement.Web.Controllers
             List<EventAreaCorrectViewModel> eventAreaCorrectViewModels = GetModels();
 
             List<string> names = _eventBLL.GetEvents().Select(elem => elem.Name).ToList();
-            ViewBag.Message = message;
+            ViewBag.Message = message ?? "";
             if (description != null)
             {
                 eventAreaCorrectViewModels = eventAreaCorrectViewModels.Where(item => item.Description.Contains(description)).ToList();
@@ -65,7 +65,7 @@ namespace TicketManagement.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddEventArea(EventAreaViewModel model)
+        public async Task<IActionResult> AddEventArea(EventAreaViewModel model)
         {
             model.EventAreas = GetModels();
             var message = VerificationOfEventArea(model);
@@ -76,24 +76,24 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _eventAreaBLL.CreateEventArea(_eventBLL.GetEvents().Where(elem => elem.Name == model.EventName).First().Id, model.Description, (int)model.StartCoordX, 
+                await _eventAreaBLL.CreateEventArea(_eventBLL.GetEvents().Where(elem => elem.Name == model.EventName).First().Id, model.Description, (int)model.StartCoordX, 
                     (int)model.StartCoordY, (int)model.EndCoordX, (int)model.EndCoordY, model.Price);
                 return RedirectToAction("Index");
             }
         }
 
-        public IActionResult DeleteEventArea(int id)
+        public async Task<IActionResult> DeleteEventArea(int id)
         {
-            _eventAreaBLL.DeleteEventArea(id);
+            await _eventAreaBLL.DeleteEventArea(id);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult UpdateEventArea(EventAreaViewModel model, string action = null)
+        public async Task<IActionResult> UpdateEventArea(EventAreaViewModel model, string action = null)
         {
             if (action == "Удалить зону события" || action == "Delete event area" || action == "Выдаліць зону падзеі")
             {
-                return DeleteEventArea(model.Id);
+                return await DeleteEventArea(model.Id);
             }
             model.EventAreas = GetModels();
             var message = VerificationOfEventArea(model);
@@ -104,7 +104,7 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _eventAreaBLL.UpdateEventArea(model.Id, _eventBLL.GetEvents().Where(elem => elem.Name == model.EventName).First().Id, model.Description, (int)model.StartCoordX,
+                await _eventAreaBLL.UpdateEventArea(model.Id, _eventBLL.GetEvents().Where(elem => elem.Name == model.EventName).First().Id, model.Description, (int)model.StartCoordX,
                     (int)model.StartCoordY, (int)model.EndCoordX, (int)model.EndCoordY, model.Price);
                 return RedirectToAction("Index");
             }
@@ -112,7 +112,7 @@ namespace TicketManagement.Web.Controllers
 
         private string VerificationOfEventArea(EventAreaViewModel model)
         {
-            return _eventAreaBLL.VerificationOfEventArea(model.Id, model.Description, model.StartCoordX, model.StartCoordY, model.EndCoordX, model.EndCoordY);
+            return _eventAreaBLL.VerificationOfEventArea(model.Id, model.Description, model.StartCoordX, model.StartCoordY, model.EndCoordX, model.EndCoordY, _eventBLL.GetEvents().First(elem => elem.Name == model.EventName).Id);
         }
 
         private List<EventAreaCorrectViewModel> GetModels()

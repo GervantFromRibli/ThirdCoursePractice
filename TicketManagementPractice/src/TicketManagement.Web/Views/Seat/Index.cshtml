@@ -40,8 +40,9 @@
             <input type="submit" value="@Localizer["Filter"]" class="btn btn-default" />
         </div>
     </form>
-    <br />
-    @Localizer[(string)ViewData["Message"]]
+    <div>
+        @Localizer[(string)ViewData["Message"]]
+    </div>
     <div>
         <table border="1">
             <thead>
@@ -64,7 +65,7 @@
             {
                 <tr>
                     <td>
-                        <input type="button" class="btn-default" style="border:hidden; width:100%; background-color: rgba(0,100,0,0.9); color:white;" value="@elem.Id" onclick="changeUpdateVisibility(@elem.Id)" />
+                        <input type="button" class="btn-default" style="border:hidden; width:100%;" value="@elem.Id" onclick="changeUpdateVisibility(@elem.Id)" />
                     </td>
                     <td>
                         @elem.AreaDescription

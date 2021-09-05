@@ -6,9 +6,8 @@
     /// </summary>
     public class Ticket
     {
-        public Ticket(int id, int eventSeatId, string userId)
+        public Ticket(int eventSeatId, string userId)
         {
-            Id = id;
             EventSeatId = eventSeatId;
             UserId = userId;
         }

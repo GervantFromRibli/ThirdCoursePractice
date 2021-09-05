@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -36,27 +35,17 @@ namespace TicketManagement.BLL
 
         public async Task CreateEventArea(int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price)
         {
-            List<EventArea> areas = GetEventAreas();
-            if (areas.Count() == 0)
-            {
-                await Repository.Create(new EventArea(1, eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));
-            }
-            else
-            {
-                int id = areas.Select(elem => elem.Id).Max() + 1;
-                await Repository.Create(new EventArea(id, eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));
-            }
+            await Repository.Create(new EventArea(eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));
         }
 
         public async Task UpdateEventArea(int id, int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price)
         {
-            await Repository.Create(new EventArea(id, eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));
+            await Repository.Update(new EventArea(id, eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));
         }
 
-        public string VerificationOfEventArea(int id, string description, int? startX, int? startY, int? endX, int? endY)
+        public string VerificationOfEventArea(int id, string description, int? startX, int? startY, int? endX, int? endY, int eventId)
         {
-            var areaElem = GetEventArea(id).Result;
-            var descrs = GetEventAreas().Where(elem => elem.EventId == areaElem.EventId && elem.Id != id).Select(elem => elem.Description);
+            var descrs = GetEventAreas().Where(elem => elem.EventId == eventId && elem.Id != id).Select(elem => elem.Description);
             if (description == null || startX == null || startY == null || endY == null || endX == null)
             {
                 return "NoValues";
@@ -69,7 +58,7 @@ namespace TicketManagement.BLL
             {
                 return "WrongCoordStep";
             }
-            foreach (var area in GetEventAreas().Where(elem => elem.EventId == areaElem.EventId && elem.Id != id) ?? new List<EventArea>())
+            foreach (var area in GetEventAreas().Where(elem => elem.EventId == eventId && elem.Id != id) ?? new List<EventArea>())
             {
                 if (startX > area.StartCoordX && startX < area.EndCoordX && startY > area.StartCoordY && startY < endY)
                 {

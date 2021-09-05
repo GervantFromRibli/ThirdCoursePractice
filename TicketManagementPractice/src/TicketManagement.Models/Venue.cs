@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace TicketManagement.Models
+﻿namespace TicketManagement.Models
 {
     /// <summary>
     /// Класс, представляющий модель записи
@@ -13,6 +11,12 @@ namespace TicketManagement.Models
         public Venue(int id, string descr, string address, string phone)
         {
             Id = id;
+            Description = descr;
+            Address = address;
+            Phone = phone;
+        }
+        public Venue(string descr, string address, string phone)
+        {
             Description = descr;
             Address = address;
             Phone = phone;

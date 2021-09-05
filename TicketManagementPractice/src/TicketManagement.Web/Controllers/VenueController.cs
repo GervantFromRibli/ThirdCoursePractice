@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TicketManagement.BLL;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -25,7 +24,7 @@ namespace TicketManagement.Web.Controllers
             int pageSize = 20;
             List<Venue> venues = _venueBLL.GetVenues() ?? new List<Venue>();
             List<int> Ids = venues.Select(item => item.Id).ToList();
-            ViewBag.Message = message;
+            ViewBag.Message = message ?? "";
             if (description != null)
             {
                 venues = venues.Where(item => item.Description.Contains(description)).ToList();
@@ -58,7 +57,7 @@ namespace TicketManagement.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddVenue(VenueViewModel model)
+        public async Task<IActionResult> AddVenue(VenueViewModel model)
         {
             model.Venues = _venueBLL.GetVenues() ?? new List<Venue>();
             var message = VerificationOfVenue(model);
@@ -69,23 +68,23 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _venueBLL.CreateVenue(model.Description, model.Address, model.Phone);
+                await _venueBLL.CreateVenue(model.Description, model.Address, model.Phone);
                 return RedirectToAction("Index");
             }
         }
 
-        public IActionResult DeleteVenue(int id)
+        public async Task<IActionResult> DeleteVenue(int id)
         {
-            _venueBLL.DeleteVenue(id);
+            await _venueBLL.DeleteVenue(id);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult UpdateVenue(VenueViewModel model, string action = null)
+        public async Task<IActionResult> UpdateVenue(VenueViewModel model, string action = null)
         {
             if (action == "Удалить площадку" || action == "Delete venue" || action == "Выдаліць пляцоўку")
             {
-                return DeleteVenue(model.Id);
+                return await DeleteVenue(model.Id);
             }
             model.Venues = _venueBLL.GetVenues() ?? new List<Venue>();
             var message = VerificationOfVenue(model);
@@ -96,7 +95,7 @@ namespace TicketManagement.Web.Controllers
             }
             else
             {
-                _venueBLL.UpdateVenue(model.Id, model.Description, model.Address, model.Phone);
+                await _venueBLL.UpdateVenue(model.Id, model.Description, model.Address, model.Phone);
                 return RedirectToAction("Index");
             }
         }

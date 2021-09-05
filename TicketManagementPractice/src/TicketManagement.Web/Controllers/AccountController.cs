@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TicketManagement.Web.Models;
 
@@ -41,7 +38,7 @@ namespace TicketManagement.Web.Controllers
                 {
                     await _userManager.AddToRoleAsync(user, model.UserRole);
                     // установка куки
-                    await _signInManager.SignInAsync(user, false);
+                    await _signInManager.SignInAsync(user, true);
                     switch (model.Language)
                     {
                         case "Беларуская":
@@ -89,7 +86,7 @@ namespace TicketManagement.Web.Controllers
                     await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
                 if (result.Succeeded)
                 {
-                    var lang = _userManager.FindByNameAsync(model.Email).Result.Language;
+                    var lang = (await _userManager.FindByNameAsync(model.Email)).Language;
                     switch (lang)
                     {
                         case "Беларуская":

@@ -31,8 +31,7 @@
             <select name="eventAreaDescr" id="value1" class="form-control">
                 @foreach (var elem in Model.FilterEventAreaDescriptions)
                 {
-                    <option>@elem</option>
-                }
+    <option>@elem</option>}
             </select>
         </div>
         <br />
@@ -40,8 +39,9 @@
             <input type="submit" value="@Localizer["Filter"]" class="btn btn-default" />
         </div>
     </form>
-    <br />
-    @Localizer[(string)ViewData["Message"]]
+    <div>
+        @Localizer[(string)ViewData["Message"]]
+    </div>
     <div>
         <table border="1">
             <thead>
@@ -65,44 +65,44 @@
             </thead>
             @foreach (var elem in Model.EventSeats)
             {
-                <tr>
-                    <td>
-                        <input type="button" class="btn-default" style="border:hidden; width:100%; background-color: rgba(0,100,0,0.9); color:white;" value="@elem.Id" onclick="changeUpdateVisibility(@elem.Id)" />
-                    </td>
-                    <td>
-                        @elem.EventAreaDescription
-                    </td>
-                    <td>
-                        @elem.Row
-                    </td>
-                    <td>
-                        @elem.Number
-                    </td>
-                    <td>
-                        @elem.State
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    <input type="button" class="btn-default" style="border:hidden; width:100%;" value="@elem.Id" onclick="changeUpdateVisibility(@elem.Id)" />
+                </td>
+                <td>
+                    @elem.EventAreaDescription
+                </td>
+                <td>
+                    @elem.Row
+                </td>
+                <td>
+                    @elem.Number
+                </td>
+                <td>
+                    @elem.State
+                </td>
+            </tr>            
             }
         </table>
     </div>
     <div>
         @if (Model.PageViewModel.HasPreviousPage)
         {
-            <a asp-action="Index"
-               asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-               class="btn" style="border:2px solid white;">
-                <i class="glyphicon glyphicon-chevron-left"></i>
-                @Localizer["Back"]
-            </a>
+        <a asp-action="Index"
+           asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+           class="btn" style="border:2px solid white;">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            @Localizer["Back"]
+        </a>
         }
         @if (Model.PageViewModel.HasNextPage)
         {
-            <a asp-action="Index"
-               asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-               class="btn" style="border:2px solid white;">
-                @Localizer["Forward"]
-                <i class="glyphicon glyphicon-chevron-right"></i>
-            </a>
+        <a asp-action="Index"
+           asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+           class="btn" style="border:2px solid white;">
+            @Localizer["Forward"]
+            <i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
         }
     </div>
     <br />

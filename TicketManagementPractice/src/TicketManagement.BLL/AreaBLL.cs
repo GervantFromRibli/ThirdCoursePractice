@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -36,16 +35,7 @@ namespace TicketManagement.BLL
 
         public async Task CreateArea(int layoutId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY)
         {
-            List<Area> areas = GetAreas();
-            if (areas.Count() == 0)
-            {
-                await Repository.Create(new Area(1, layoutId, description, startCoordX, startCoordY, endCoordX, endCoordY));
-            }
-            else
-            {
-                int id = areas.Select(elem => elem.Id).Max() + 1;
-                await Repository.Create(new Area(id, layoutId, description, startCoordX, startCoordY, endCoordX, endCoordY));
-            }
+            await Repository.Create(new Area(layoutId, description, startCoordX, startCoordY, endCoordX, endCoordY));
         }
 
         public async Task UpdateArea(int id, int layoutId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY)
@@ -53,10 +43,9 @@ namespace TicketManagement.BLL
             await Repository.Update(new Area(id, layoutId, description, startCoordX, startCoordY, endCoordX, endCoordY));
         }
 
-        public string VerificationOfArea(int id, string descr, int? startX, int? startY, int? endX, int? endY)
+        public string VerificationOfArea(int id, string descr, int? startX, int? startY, int? endX, int? endY, int layoutId)
         {
-            var areaElem = Repository.GetById(id).Result;
-            var descrs = Repository.GetAll().Where(elem => elem.LayoutId == areaElem.LayoutId && elem.Id != id).Select(elem => elem.Description);
+            var descrs = Repository.GetAll().Where(elem => elem.LayoutId == layoutId && elem.Id != id).Select(elem => elem.Description);
             if (descr == null || startX == null || startY == null || endY == null || endX == null)
             {
                 return "NoValue";

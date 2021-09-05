@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TicketManagement.DAL;
 using TicketManagement.Models;
@@ -40,15 +39,7 @@ namespace TicketManagement.BLL
 
         public async Task CreateEvent(string name, string description, int layoutId, DateTime startDate, DateTime endDate, string imagePath)
         {
-            if (Repository.GetAll().Count() == 0)
-            {
-                await Repository.Create(new Event(1, name, description, layoutId, startDate, endDate, imagePath));
-            }
-            else
-            {
-                int id = GetEvents().Select(elem => elem.Id).Max() + 1;
-                await Repository.Create(new Event(id, name, description, layoutId, startDate, endDate, imagePath));
-            }
+            await Repository.Create(new Event(name, description, layoutId, startDate, endDate, imagePath));
         }
 
         public async Task UpdateEvent(int id, string name, string description, int layoutId, DateTime startDate, DateTime endDate, string imagePath)
@@ -57,13 +48,12 @@ namespace TicketManagement.BLL
             await Repository.Update(@event);
         }
 
-        public string VerificationOfEvent(int id, string name, string description, DateTime startDate, DateTime endDate)
+        public string VerificationOfEvent(int id, string name, string description, DateTime startDate, DateTime endDate, int layoutId)
         {
             var names = GetEvents().Where(elem => elem.Id != id).Select(elem => elem.Name);
             var descrs = GetEvents().Where(elem => elem.Id != id).Select(elem => elem.Description);
-            var eventElem = GetEvent(id).Result;
             var events = GetEvents().Where(elem => elem.Id != id);
-            var seatsCount = GetSeatsCount(eventElem.LayoutId);
+            var seatsCount = GetSeatsCount(layoutId);
             if (description == null || name == null || startDate == null || endDate == null)
             {
                 return "NoValues";
@@ -82,7 +72,7 @@ namespace TicketManagement.BLL
             }
             foreach (var elem in events)
             {
-                if (elem.LayoutId == eventElem.LayoutId && !(eventElem.StartDate > elem.EndDate || eventElem.EndDate < elem.StartDate))
+                if (elem.LayoutId == layoutId && !(startDate > elem.EndDate || endDate < elem.StartDate))
                 {
                     return "ExistEvent";
                 }

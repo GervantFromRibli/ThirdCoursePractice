@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TicketManagement.Models;
 
@@ -18,6 +16,6 @@ namespace TicketManagement.BLL
 
         public Task UpdateLayout(int id, int venueId, string description);
 
-        public string VerificationOfLayout(int id, string description);
+        public string VerificationOfLayout(int id, string description, int venueId);
     }
 }

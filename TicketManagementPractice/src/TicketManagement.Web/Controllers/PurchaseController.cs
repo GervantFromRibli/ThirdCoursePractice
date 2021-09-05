@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TicketManagement.BLL;
 using TicketManagement.DAL;
-using TicketManagement.Models;
 using TicketManagement.Web.Models;
 
 namespace TicketManagement.Web.Controllers
@@ -30,14 +28,14 @@ namespace TicketManagement.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int id, string message = null)
+        public async Task<IActionResult> Index(int id, string message = null)
         {
-            PurchaseViewModel purchaseViewModel = GetModels(id);
-            ViewBag.Message = message;
+            PurchaseViewModel purchaseViewModel = await GetModels(id);
+            ViewBag.Message = message ?? "";
             return View(purchaseViewModel);
         }
 
-        private PurchaseViewModel GetModels(int id)
+        private async Task<PurchaseViewModel> GetModels(int id)
         {
             var areas = _eventAreaBLL.GetEventAreas().Where(elem => elem.EventId == id);
             int rowMin = areas.Select(elem => elem.StartCoordY).Min();
@@ -61,7 +59,7 @@ namespace TicketManagement.Web.Controllers
             }
             PurchaseViewModel purchaseViewModel = new PurchaseViewModel()
             {
-                Event = _eventBLL.GetEvent(id).Result,
+                Event = await _eventBLL.GetEvent(id),
                 NumbCount = numbMax - numbMin,
                 RowCount = rowMax - rowMin,
                 PurchaseSeatViewModels = purchaseSeatViewModels
@@ -71,9 +69,9 @@ namespace TicketManagement.Web.Controllers
 
         public async Task<IActionResult> BuyTicket(int seatId)
         {
-            var seat = _eventSeatBLL.GetEventSeat(seatId).Result;
-            var area = _eventAreaBLL.GetEventArea(seat.EventAreaId).Result;
-            var @event = _eventBLL.GetEvent(area.EventId).Result;
+            var seat = await _eventSeatBLL.GetEventSeat(seatId);
+            var area = await _eventAreaBLL.GetEventArea(seat.EventAreaId);
+            var @event = await _eventBLL.GetEvent(area.EventId);
             await _eventSeatBLL.UpdateEventSeat(seatId, seat.EventAreaId, seat.Row, seat.Number, "Занято");
             BuyTicketViewModel buyTicketViewModel = new BuyTicketViewModel()
             {
@@ -89,9 +87,9 @@ namespace TicketManagement.Web.Controllers
 
         public async Task<IActionResult> BuyNewTicket(int id, string userName, string confirm)
         {
-            var user = _userManager.FindByNameAsync(userName).Result;
-            var seat = _eventSeatBLL.GetEventSeat(id).Result;
-            var area = _eventAreaBLL.GetEventArea(seat.EventAreaId).Result;
+            var user = await _userManager.FindByNameAsync(userName);
+            var seat = await _eventSeatBLL.GetEventSeat(id);
+            var area = await _eventAreaBLL.GetEventArea(seat.EventAreaId);
             if (confirm == "Нет" || confirm == "No")
             {
                 var eventElem = _eventBLL.GetEvents().Where(elem => elem.Id == area.EventId).First();
@@ -117,7 +115,7 @@ namespace TicketManagement.Web.Controllers
             var ticket = _ticketBLL.GetTickets().Where(elem => elem.EventSeatId == id);
             if (!ticket.Any())
             {
-                var seat = _eventSeatBLL.GetEventSeat(id).Result;
+                var seat = await _eventSeatBLL.GetEventSeat(id);
                 await _eventSeatBLL.UpdateEventSeat(id, seat.EventAreaId, seat.Row, seat.Number, "Свободно");
             }
             return RedirectToAction("Index", new { id = eventId, message });

@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using TicketManagement.Models;
 
 [assembly: InternalsVisibleToAttribute("TicketManagement.BLL")]
-    
+
 namespace TicketManagement.DAL
 {
     /// <summary>
@@ -29,13 +28,18 @@ namespace TicketManagement.DAL
             }
         }
 
-        protected DbContext DbContext { get; set; }
+        protected ApplicationContext DbContext { get; set; }
 
         /// <inheritdoc cref="IRepository{T}.Create(T)"/>
         public async Task Create(Event item)
         {
-            await DbContext.Set<Event>().AddAsync(item);
-            await DbContext.SaveChangesAsync();
+            var name = new SqlParameter("@name", item.Name);
+            var description = new SqlParameter("@description", item.Description);
+            var layoutId = new SqlParameter("@layoutId", item.LayoutId);
+            var start = new SqlParameter("@start", item.StartDate);
+            var end = new SqlParameter("@end", item.EndDate);
+            var imageUrl = new SqlParameter("@imageUrl", item.ImagePath);
+            await DbContext.Database.ExecuteSqlRawAsync("CreateEvent @name, @description, @layoutId, @start, @end, @imageUrl", name, description, layoutId, start, end, imageUrl);
         }
 
         /// <inheritdoc cref="IRepository{T}.Delete(T)"/>
