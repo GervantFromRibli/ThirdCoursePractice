@@ -8,41 +8,57 @@ using TicketManagement.Models;
 
 namespace TicketManagement.BLL
 {
+    /// <summary>
+    /// Bll class for Event area table that proxy all calls and validate data.
+    /// </summary>
     internal class EventAreaBLL : IEventAreaBLL
     {
+        /// <summary>
+        ///  Event area repository.
+        /// </summary>
         protected IRepository<EventArea> Repository { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EventAreaBLL"/> class.
+        /// </summary>
+        /// <param name="context"> Instance of application context. </param>
         public EventAreaBLL(ApplicationContext context)
         {
             Repository = new EventAreaRepository(context);
         }
 
+        /// <inheritdoc cref="IEventAreaBLL.GetEventArea(int)"/>
         public async Task<EventArea> GetEventArea(int id)
         {
             return await Repository.GetById(id);
         }
 
+        /// <inheritdoc cref="IEventAreaBLL.DeleteEventArea(int)"/>
         public async Task DeleteEventArea(int id)
         {
             EventArea eventArea = await Repository.GetById(id);
             await Repository.Delete(eventArea);
         }
 
+        /// <inheritdoc cref="IEventAreaBLL.GetEventAreas"/>
         public List<EventArea> GetEventAreas()
         {
             return Repository.GetAll().ToList();
         }
 
+        /// <inheritdoc cref="IEventAreaBLL.CreateEventArea(int, string, int, int, int, int, decimal)"/>
         public async Task CreateEventArea(int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price)
         {
             await Repository.Create(new EventArea(eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));
         }
 
+        /// <inheritdoc cref="IEventAreaBLL.UpdateEventArea(int, int, string, int, int, int, int, decimal)"/>
         public async Task UpdateEventArea(int id, int eventId, string description, int startCoordX, int startCoordY, int endCoordX, int endCoordY, decimal price)
         {
             await Repository.Update(new EventArea(id, eventId, description, startCoordX, startCoordY, endCoordX, endCoordY, price));
         }
 
+        /// <inheritdoc cref="IEventAreaBLL.VerificationOfEventArea(int, string, int?, int?, int?, int?, int)"/>
         public string VerificationOfEventArea(int id, string description, int? startX, int? startY, int? endX, int? endY, int eventId)
         {
             var descrs = GetEventAreas().Where(elem => elem.EventId == eventId && elem.Id != id).Select(elem => elem.Description);
